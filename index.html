@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ethereum Weekly Top 20 Tokens - Index</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            color: #2c3e50;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            margin-bottom: 10px;
+            padding: 10px;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+        }
+        a {
+            color: #3498db;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>Ethereum Weekly Top 20 Tokens Reports</h1>
+    <ul id="reportList"></ul>
+
+    <script>
+        // This array will be updated manually each week
+        const reports = [
+            { date: '2024-08-12', filename: 'week_2024_08_12.html' },
+            // Add new entries here as you create new weekly reports
+        ];
+
+        const reportList = document.getElementById('reportList');
+        reports.forEach(report => {
+            const li = document.createElement('li');
+            const a = document.createElement('a');
+            a.href = report.filename;
+            a.textContent = `Week Ending ${report.date}`;
+            li.appendChild(a);
+            reportList.appendChild(li);
+        });
+    </script>
+</body>
+</html>
