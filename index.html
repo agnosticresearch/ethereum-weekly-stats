@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ethereum Weekly Top 20 Tokens - Index</title>
+    <title>Weekly Top 20 Tokens - Ethereum and Polygon</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -15,6 +15,9 @@
         }
         h1 {
             color: #2c3e50;
+        }
+        h2 {
+            color: #3498db;
         }
         ul {
             list-style-type: none;
@@ -36,24 +39,23 @@
     </style>
 </head>
 <body>
-    <h1>Ethereum Weekly Top 20 Tokens Reports</h1>
-    <ul id="reportList"></ul>
+    <h1>Weekly Top 20 Tokens Reports</h1>
+    
+    <h2>Ethereum Network</h2>
+    <ul>
+        <li><a href="ethereum_week_2024_08_12.html">Week Ending August 12, 2024</a></li>
+        <!-- Add more Ethereum reports here as you create them -->
+    </ul>
 
-    <script>
-        const reports = [
-            { date: '2024-08-12', filename: 'week_2024_08_12.html' }
-            // Add new entries here as you create new weekly reports
-        ];
+    <h2>Base Network</h2>
+    <ul>
+        <li><a href="base_week_2024_08_12.html">Week Ending August 12, 2024</a></li>
+    </ul>
 
-        const reportList = document.getElementById('reportList');
-        reports.forEach(report => {
-            const li = document.createElement('li');
-            const a = document.createElement('a');
-            a.href = report.filename;
-            a.textContent = `Week Ending ${report.date}`;
-            li.appendChild(a);
-            reportList.appendChild(li);
-        });
-    </script>
+    <h2>Polygon Network</h2>
+    <ul>
+        <li><a href="polygon_week_2024_08_12.html">Week Ending August 12, 2024</a></li>
+        <!-- Add more Polygon reports here as you create them -->
+    </ul>
 </body>
 </html>

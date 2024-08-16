@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Base Weekly Top 20 Tokens - Week Ending August 12, 2024</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
+        .chart-container { background-color: white; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin-bottom: 30px; padding: 20px; }
+        h1, h2 { color: #0052FF; }  /* Base's primary color */
+        h3 { font-size: 18px; margin-top: 0; color: #666; }
+        .bar { fill: #0052FF; cursor: pointer; }
+        .bar:hover { fill: #3385FF; }
+        .bar-label { font-size: 12px; }
+        .chart-icon { font-size: 12px; cursor: pointer; }
+        .axis-label { font-size: 14px; }
+        a { color: inherit; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <h1>Base Weekly Top 20 Tokens - Week Ending August 12, 2024</h1>
+    <a href="index.html">Back to Index</a>
+    
+    <div class="chart-container">
+        <h2>Top 20 Tokens by Growth Percentage</h2>
+        <svg id="growthChart" width="760" height="600"></svg>
+    </div>
+    
+    <div class="chart-container">
+        <h2>Top 20 Tokens by Total Transactions</h2>
+        <svg id="transactionsChart" width="760" height="600"></svg>
+    </div>
+
+    <script>
+        const growthData = [
+            { name: "MsMiggles (6541)", value: 1831.83, address: "0xc0e59c3ca26235e9823a9722adbbec7ba9176541" },
+            { name: "Pizza: PIZZA Token (bca0)", value: 204.70, address: "0x40468be13c4388d2ab68a09f56973fa95db5bca0" },
+            { name: "BasedCoin (dffb)", value: 173.94, address: "0x07d15798a67253d76cea61f0ea6f57aedc59dffb" },
+            { name: "OpenEditionERC721 (ad1b)", value: 141.45, address: "0x1b9ac8580d2e81d7322f163362831448e7fcad1b" },
+            { name: "ERC721CollectionP...9e77", value: 135.81, address: "0x89d487cf2d082e5e83f5e8dcaa4ecaa508959e77" },
+            { name: "WEWESWAP: WEWE Token (b41f)", value: 130.40, address: "0x6b9bb36519538e0c073894e964e90172e1c0b41f" },
+            { name: "Haida Gwaii (9dbe)", value: 120.21, address: "0x71085b22aceffa5852c2e6aa0b7bf3d6048a9dbe" },
+            { name: "Based0xSmall (f24c)", value: 118.09, address: "0x7ca0f4976502de0d92f35c5a96284f026c04f24c" },
+            { name: "based MC: basedMC...7e06", value: 107.69, address: "0x96a07274abf958aa04a05b87434df4cd1bc77e06" },
+            { name: "LUNARLENS COIN: L...19e5", value: 100.00, address: "0xf95e1c0a67492720ca22842122fe7fa63d5519e5" },
+            { name: "BasedCybots (08e2)", value: 88.67, address: "0xe17fa4e6fb1107fc5dcc645b99b061d505f008e2" },
+            { name: "RobotsFarmLocked (2896)", value: 58.44, address: "0xcca8a697f4ff918a77d6991b200d171eb4f32896" },
+            { name: "InterchainToken (4541)", value: 56.83, address: "0xd94393cd7fcceb749cd844e89167d4a2cdc64541" },
+            { name: "DEVILCAT Explodin...50bd", value: 57.82, address: "0xc0773acde0113dc13c1f20d7105c762119b250bd" },
+            { name: "InitializableUpgr...da52", value: 54.35, address: "0xc1e02884af4a283ca25ab63c45360d220d69da52" },
+            { name: "RINTARO (4c24)", value: 52.50, address: "0x105f689e01b2000bd910274339bb154d583d4c24" },
+            { name: "PropyClaimAddressV1 (950e)", value: 45.74, address: "0xa239b9b3e00637f29f6c7c416ac95127290b950e" },
+            { name: "Bitget Wallet: BW...f39d", value: 40.17, address: "0x619c4bbbd65f836b78b36cbe781513861d57f39d" },
+            { name: "BABY TIMI (0c7f)", value: 35.57, address: "0xadd50396b9ad61a930f46e85ad900fd31dd10c7f" },
+            { name: "Lions: Lions Token (2206)", value: 33.11, address: "0x6f03b3df22f0c57a4477eeac3a49c2bc4eae2206" }
+        ];
+
+        const transactionsData = [
+            { name: "RocketRush (a6bc)", value: 269067, address: "0xdaae4a2834cae00ae3af763df9d55e6c91f7a6bc" },
+            { name: "Contract Address ...a2dd", value: 167529, address: "0x19570948c2e7694f06606c9f1187b1d7eabda2dd" },
+            { name: "BasedPepe (777d)", value: 163206, address: "0x52b492a33e447cdb854c7fc19f1e57e8bfa1777d" },
+            { name: "Lions: Lions Token (2206)", value: 147702, address: "0x6f03b3df22f0c57a4477eeac3a49c2bc4eae2206" },
+            { name: "Bridged USDT Token (9bb2)", value: 70555, address: "0xfde4c96c8593536e31f229ea8f37b2ada2699bb2" },
+            { name: "LUNARLENS COIN: L...19e5", value: 66726, address: "0xf95e1c0a67492720ca22842122fe7fa63d5519e5" },
+            { name: "PropyClaimAddressV1 (950e)", value: 55582, address: "0xa239b9b3e00637f29f6c7c416ac95127290b950e" },
+            { name: "OpenEditionERC721 (ad1b)", value: 52270, address: "0x1b9ac8580d2e81d7322f163362831448e7fcad1b" },
+            { name: "TonOnBase (500f)", value: 40530, address: "0x60985e46e87e2e25af43c6e09f458cc39aec500f" },
+            { name: "BasedCoin (dffb)", value: 28753, address: "0x07d15798a67253d76cea61f0ea6f57aedc59dffb" },
+            { name: "MsMiggles (6541)", value: 26671, address: "0xc0e59c3ca26235e9823a9722adbbec7ba9176541" },
+            { name: "Contract Address ...ef23", value: 24376, address: "0x2ad33b6d6c87fd6dc87faffeca4db501efa2ef23" },
+            { name: "BABY TIMI (0c7f)", value: 19980, address: "0xadd50396b9ad61a930f46e85ad900fd31dd10c7f" },
+            { name: "ERC1967Proxy (8744)", value: 16382, address: "0xb5f58fe2fdd79b279bf2b201f91ba784b79c8744" },
+            { name: "WEWESWAP: WEWE Token (b41f)", value: 13858, address: "0x6b9bb36519538e0c073894e964e90172e1c0b41f" },
+            { name: "POV (beb5)", value: 13560, address: "0x4c96a67b0577358894407af7bc3158fc1dffbeb5" },
+            { name: "based MC: basedMC...7e06", value: 12126, address: "0x96a07274abf958aa04a05b87434df4cd1bc77e06" },
+            { name: "Points (6670)", value: 10255, address: "0x0bd4887f7d41b35cd75dff9ffee2856106f86670" },
+            { name: "Pizza: PIZZA Token (bca0)", value: 6171, address: "0x40468be13c4388d2ab68a09f56973fa95db5bca0" },
+            { name: "InterchainToken (4541)", value: 5716, address: "0xd94393cd7fcceb749cd844e89167d4a2cdc64541" }
+        ];
+
+        function createChart(svgId, data, valuePrefix = "") {
+            const svg = document.getElementById(svgId);
+            const width = 760;
+            const height = 600;
+            const margin = { top: 20, right: 30, bottom: 40, left: 200 };
+            const chartWidth = width - margin.left - margin.right;
+            const chartHeight = height - margin.top - margin.bottom;
+
+            const maxValue = Math.max(...data.map(d => d.value));
+            const yScale = (i) => margin.top + (i * (chartHeight / data.length));
+            const xScale = (val) => (val / maxValue) * chartWidth;
+
+            data.forEach((d, i) => {
+                const barGroup = document.createElementNS("http://www.w3.org/2000/svg", "g");
+                
+                const barLink = document.createElementNS("http://www.w3.org/2000/svg", "a");
+                barLink.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", `https://basescan.org/token/${d.address}`);
+                barLink.setAttribute("target", "_blank");
+
+                const bar = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+                bar.setAttribute("x", margin.left);
+                bar.setAttribute("y", yScale(i));
+                bar.setAttribute("width", xScale(d.value));
+                bar.setAttribute("height", chartHeight / data.length - 5);
+                bar.setAttribute("class", "bar");
+                barLink.appendChild(bar);
+                barGroup.appendChild(barLink);
+
+                const label = document.createElementNS("http://www.w3.org/2000/svg", "text");
+                label.setAttribute("x", margin.left - 25);
+                label.setAttribute("y", yScale(i) + (chartHeight / data.length / 2));
+                label.setAttribute("text-anchor", "end");
+                label.setAttribute("alignment-baseline", "middle");
+                label.setAttribute("class", "bar-label");
+                label.textContent = d.name;
+                barGroup.appendChild(label);
+
+                const chartIcon = document.createElementNS("http://www.w3.org/2000/svg", "text");
+                chartIcon.setAttribute("x", margin.left - 10);
+                chartIcon.setAttribute("y", yScale(i) + (chartHeight / data.length / 2));
+                chartIcon.setAttribute("text-anchor", "middle");
+                chartIcon.setAttribute("alignment-baseline", "middle");
+                chartIcon.setAttribute("class", "chart-icon");
+                chartIcon.textContent = "📊";
+                chartIcon.style.cursor = "pointer";
+                chartIcon.addEventListener("click", () => {
+                    window.open(`https://dexscreener.com/base/${d.address}`, "_blank");
+                });
+                barGroup.appendChild(chartIcon);
+
+                const value = document.createElementNS("http://www.w3.org/2000/svg", "text");
+                value.setAttribute("x", margin.left + xScale(d.value) + 5);
+                value.setAttribute("y", yScale(i) + (chartHeight / data.length / 2));
+                value.setAttribute("alignment-baseline", "middle");
+                value.setAttribute("class", "bar-label");
+                value.textContent = valuePrefix + d.value.toLocaleString();
+                barGroup.appendChild(value);
+
+                svg.appendChild(barGroup);
+            });
+
+            // X-axis
+            const xAxis = document.createElementNS("http://www.w3.org/2000/svg", "line");
+            xAxis.setAttribute("x1", margin.left);
+            xAxis.setAttribute("y1", height - margin.bottom);
+            xAxis.setAttribute("x2", width - margin.right);
+            xAxis.setAttribute("y2", height - margin.bottom);
+            xAxis.setAttribute("stroke", "black");
+            svg.appendChild(xAxis);
+
+            // Y-axis
+            const yAxis = document.createElementNS("http://www.w3.org/2000/svg", "line");
+            yAxis.setAttribute("x1", margin.left);
+            yAxis.setAttribute("y1", margin.top);
+            yAxis.setAttribute("x2", margin.left);
+            yAxis.setAttribute("y2", height - margin.bottom);
+            yAxis.setAttribute("stroke", "black");
+            svg.appendChild(yAxis);
+        }
+
+        createChart("growthChart", growthData, "+");
+        createChart("transactionsChart", transactionsData);
+    </script>
+</body>
+</html>
