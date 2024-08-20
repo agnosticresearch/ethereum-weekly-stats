@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Base Weekly Top 20 Tokens - Week Ending August 20, 2024</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
+        .chart-container { background-color: white; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin-bottom: 30px; padding: 20px; }
+        h1, h2 { color: #0052FF; }
+        h3 { font-size: 18px; margin-top: 0; color: #666; }
+        .bar { cursor: pointer; }
+        .bar.positive { fill: #0052FF; }
+        .bar.negative { fill: #FF4136; }
+        .bar:hover { opacity: 0.8; }
+        .bar-label { font-size: 12px; }
+        .value-label { font-size: 12px; fill: black; }
+        .chart-icon { font-size: 12px; cursor: pointer; }
+        .axis-label { font-size: 14px; }
+        a { color: inherit; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <h1>Base Weekly Top 20 Tokens - Week Ending August 20, 2024</h1>
+    <a href="index.html">Back to Index</a>
+    
+    <div class="chart-container">
+        <h2>Top 20 Tokens by Growth Percentage</h2>
+        <svg id="growthChart" width="760" height="600"></svg>
+    </div>
+    
+    <div class="chart-container">
+        <h2>Top 20 Tokens by Total Transactions</h2>
+        <svg id="transactionsChart" width="760" height="600"></svg>
+    </div>
+
+    <script>
+        const growthData = [
+            { name: "Refugee (RFG) (6331)", value: 69.09, address: "0xa5053c346f4759198bd6b64171db1eff4cba6331" },
+            { name: "LUNARLENS (LUNARL...19e5", value: 47.45, address: "0xf95e1c0a67492720ca22842122fe7fa63d5519e5" },
+            { name: "Flowchain (FLC) (ce91)", value: 42.71, address: "0xaa2293967b8d297e7fc4dc3e169abf9fb79fce91" },
+            { name: "Mojo (MOJO) (1373)", value: 26.19, address: "0x6dba065721435cfca05caa508f3316b637861373" },
+            { name: "cbDOGE (cbDOGE) (9e33)", value: 17.43, address: "0x328a9ea512cd6f84f2dd383978e0f3601d889e33" },
+            { name: "Legatus (LGTS) (e77b)", value: 13.33, address: "0xfa08dc75c5709a14892dcb157765a55b9d6de77b" },
+            { name: "RealGOAT (RGOAT) (0800)", value: 5.34, address: "0xf0268c5f9aa95baf5c25d646aabb900ac12f0800" },
+            { name: "WARP (WARP) (cc1e)", value: 4.66, address: "0x3c8665472ec5af30981b06b4e0143663ebedcc1e" },
+            { name: "Ski Mask Miggles ...9424", value: 4.29, address: "0x85d571852aa36cb379d916ad82b8520071a99424" },
+            { name: "just a slime (SLIME) (1c31)", value: 2.13, address: "0xc0be47bedfa52a39fc7e9681a7504889301f1c31" },
+            { name: "Baby Neiro, The H...27bd", value: 0.00, address: "0x6676292a605024034092e925ff3099f9974e27bd" },
+            { name: "Lava-BIRD (BIRD) (4719)", value: -8.93, address: "0x410f08a16bc510068ac82280ac529bb5509d4719" },
+            { name: "IHF Smart Debase ...f6fd", value: -9.60, address: "0x3b9728bd65ca2c11a817ce39a6e91808cceef6fd" },
+            { name: "xlords.tech Token...5ef0", value: -14.34, address: "0xaa377f2199999844e873a4f1cbc4f91636465ef0" },
+            { name: "Aave Base cbETH (...95ad", value: -16.67, address: "0xcf3d55c10db69f28fd1a75bd73f3d8a2d9c595ad" },
+            { name: "Zuzalu (Zuzalu) (6933)", value: -17.05, address: "0x3054e8f8fba3055a42e5f5228a2a4e2ab1326933" },
+            { name: "Tadpole (TAD) (173e)", value: -17.27, address: "0x55027a5b06f4340cc4c82dcc74c90ca93dcb173e" },
+            { name: "Miggles Licking E...d02d", value: -21.56, address: "0x8730b6234045bf4497e646ef92f106894512d02d" },
+            { name: "Robots.Farm Locke...b0ac", value: -22.44, address: "0x5f788bb1ecb32fd432758453cea264afca6db0ac" },
+            { name: "Omni Hero (oHERO) (daf9)", value: -26.36, address: "0x64ddc857791586c61bb332eef909dfd0af6bdaf9" }
+        ];
+
+        const transactionsData = [
+            { name: "Tadpole (TAD) (173e)", value: 81045, address: "0x55027a5b06f4340cc4c82dcc74c90ca93dcb173e" },
+            { name: "LUNARLENS (LUNARL...19e5", value: 61698, address: "0xf95e1c0a67492720ca22842122fe7fa63d5519e5" },
+            { name: "Mojo (MOJO) (1373)", value: 22612, address: "0x6dba065721435cfca05caa508f3316b637861373" },
+            { name: "IHF Smart Debase ...f6fd", value: 15836, address: "0x3b9728bd65ca2c11a817ce39a6e91808cceef6fd" },
+            { name: "Ski Mask Miggles ...9424", value: 14928, address: "0x85d571852aa36cb379d916ad82b8520071a99424" },
+            { name: "cbDOGE (cbDOGE) (9e33)", value: 10639, address: "0x328a9ea512cd6f84f2dd383978e0f3601d889e33" },
+            { name: "RealGOAT (RGOAT) (0800)", value: 10004, address: "0xf0268c5f9aa95baf5c25d646aabb900ac12f0800" },
+            { name: "WARP (WARP) (cc1e)", value: 8716, address: "0x3c8665472ec5af30981b06b4e0143663ebedcc1e" },
+            { name: "xlords.tech Token...5ef0", value: 6732, address: "0xaa377f2199999844e873a4f1cbc4f91636465ef0" },
+            { name: "Based Satoshi (BO...d1f3", value: 4686, address: "0x7fdd7419428955dbf36d4176af5a8f09ad29d1f3" },
+            { name: "Flowchain (FLC) (ce91)", value: 3011, address: "0xaa2293967b8d297e7fc4dc3e169abf9fb79fce91" },
+            { name: "MPRO (MPRO) (273e)", value: 2270, address: "0xd88611a629265c9af294ffdd2e7fa4546612273e" },
+            { name: "Zuzalu (Zuzalu) (6933)", value: 2007, address: "0x3054e8f8fba3055a42e5f5228a2a4e2ab1326933" },
+            { name: "Miggles Licking E...d02d", value: 1942, address: "0x8730b6234045bf4497e646ef92f106894512d02d" },
+            { name: "Refugee (RFG) (6331)", value: 1526, address: "0xa5053c346f4759198bd6b64171db1eff4cba6331" },
+            { name: "Curve.Fi USD Stab...af93", value: 1117, address: "0x417ac0e078398c154edfadd9ef675d30be60af93" },
+            { name: "Robots.Farm Locke...b0ac", value: 1072, address: "0x5f788bb1ecb32fd432758453cea264afca6db0ac" },
+            { name: "oCOIN Token (oCOIN) (ef03)", value: 1040, address: "0x5b8f638330d7d6bd9d43811fe702f6894e97ef03" },
+            { name: "Basedmilio (BASED) (af99)", value: 966, address: "0x28e29ec91db66733a94ee8e3b86a6199117baf99" },
+            { name: "Coin Token (COIN) (9232)", value: 876, address: "0x2156006a207a793b4069a2b72be58dc2bd759232" }
+        ];
+
+
+        function createChart(svgId, data, valuePrefix = "", isGrowthChart = true) {
+            const svg = document.getElementById(svgId);
+            const width = 760;
+            const height = 600;
+            const margin = { top: 20, right: 30, bottom: 40, left: 200 };
+            const chartWidth = width - margin.left - margin.right;
+            const chartHeight = height - margin.top - margin.bottom;
+
+            const maxValue = Math.max(...data.map(d => Math.abs(d.value)));
+            const yScale = (i) => margin.top + (i * (chartHeight / data.length));
+            const xScale = (val) => (Math.abs(val) / maxValue) * chartWidth;
+
+            const zeroX = isGrowthChart ? margin.left + chartWidth / 2 : margin.left;
+
+            data.forEach((d, i) => {
+                const barGroup = document.createElementNS("http://www.w3.org/2000/svg", "g");
+                
+                const barLink = document.createElementNS("http://www.w3.org/2000/svg", "a");
+                barLink.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", `https://basescan.org/token/${d.address}`);
+                barLink.setAttribute("target", "_blank");
+
+                const bar = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+                const barWidth = xScale(d.value);
+                bar.setAttribute("x", isGrowthChart ? (d.value >= 0 ? zeroX : zeroX - barWidth) : zeroX);
+                bar.setAttribute("y", yScale(i));
+                bar.setAttribute("width", barWidth);
+                bar.setAttribute("height", chartHeight / data.length - 5);
+                bar.setAttribute("class", `bar ${d.value >= 0 ? 'positive' : 'negative'}`);
+                barLink.appendChild(bar);
+                barGroup.appendChild(barLink);
+
+                const label = document.createElementNS("http://www.w3.org/2000/svg", "text");
+                label.setAttribute("x", margin.left - 5);
+                label.setAttribute("y", yScale(i) + (chartHeight / data.length / 2));
+                label.setAttribute("text-anchor", "end");
+                label.setAttribute("alignment-baseline", "middle");
+                label.setAttribute("class", "bar-label");
+                label.textContent = d.name;
+                barGroup.appendChild(label);
+
+                const chartIcon = document.createElementNS("http://www.w3.org/2000/svg", "text");
+                chartIcon.setAttribute("x", margin.left - 10);
+                chartIcon.setAttribute("y", yScale(i) + (chartHeight / data.length / 2));
+                chartIcon.setAttribute("text-anchor", "middle");
+                chartIcon.setAttribute("alignment-baseline", "middle");
+                chartIcon.setAttribute("class", "chart-icon");
+                chartIcon.textContent = "📊";
+                chartIcon.style.cursor = "pointer";
+                chartIcon.addEventListener("click", () => {
+                    window.open(`https://dexscreener.com/base/${d.address}`, "_blank");
+                });
+                barGroup.appendChild(chartIcon);
+
+                const value = document.createElementNS("http://www.w3.org/2000/svg", "text");
+                const valueText = valuePrefix + d.value.toLocaleString();
+                const valueX = isGrowthChart 
+                    ? (d.value >= 0 ? zeroX + 5 : zeroX - 5)
+                    : zeroX + 5;
+                value.setAttribute("x", valueX);
+                value.setAttribute("y", yScale(i) + (chartHeight / data.length / 2));
+                value.setAttribute("text-anchor", isGrowthChart && d.value < 0 ? "end" : "start");
+                value.setAttribute("alignment-baseline", "middle");
+                value.setAttribute("class", "value-label");
+                value.textContent = valueText;
+                barGroup.appendChild(value);
+
+                svg.appendChild(barGroup);
+            });
+
+            if (isGrowthChart) {
+                // Zero line for growth chart
+                const zeroLine = document.createElementNS("http://www.w3.org/2000/svg", "line");
+                zeroLine.setAttribute("x1", zeroX);
+                zeroLine.setAttribute("y1", margin.top);
+                zeroLine.setAttribute("x2", zeroX);
+                zeroLine.setAttribute("y2", height - margin.bottom);
+                zeroLine.setAttribute("stroke", "black");
+                zeroLine.setAttribute("stroke-dasharray", "4");
+                svg.appendChild(zeroLine);
+            }
+
+            // X-axis and Y-axis (unchanged)
+            // ...
+        }
+
+        createChart("growthChart", growthData, "", true);
+        createChart("transactionsChart", transactionsData, "", false);
+    </script>
+</body>
+</html>

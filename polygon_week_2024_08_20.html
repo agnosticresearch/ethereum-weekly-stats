@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Polygon Weekly Top 20 Tokens - Week Ending August 20, 2024</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
+        .chart-container { background-color: white; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin-bottom: 30px; padding: 20px; }
+        h1, h2 { color: #8247E5; }  /* Polygon's primary color */
+        h3 { font-size: 18px; margin-top: 0; color: #666; }
+        .bar { cursor: pointer; }
+        .bar.positive { fill: #8247E5; }
+        .bar.negative { fill: #FF4136; }
+        .bar:hover { opacity: 0.8; }
+        .bar-label { font-size: 12px; }
+        .value-label { font-size: 12px; fill: black; }
+        .chart-icon { font-size: 12px; cursor: pointer; }
+        .axis-label { font-size: 14px; }
+        a { color: inherit; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <h1>Polygon Weekly Top 20 Tokens - Week Ending August 20, 2024</h1>
+    <a href="index.html">Back to Index</a>
+    
+    <div class="chart-container">
+        <h2>Top 20 Tokens by Growth Percentage</h2>
+        <svg id="growthChart" width="760" height="600"></svg>
+    </div>
+    
+    <div class="chart-container">
+        <h2>Top 20 Tokens by Total Transactions</h2>
+        <svg id="transactionsChart" width="760" height="600"></svg>
+    </div>
+
+    <script>
+        const growthData = [
+            { name: "AvatarsJabWeMet (...012a", value: 710.05, address: "0x0649a55263a165f34ecbcd8a8868a776a43a012a" },
+            { name: "METABEAT (BEAT) (c834)", value: 250.96, address: "0xb78cf9ac0f47f1d69cba861deda29814d285c834" },
+            { name: "Cobak Token (PoS)...c573", value: 195.98, address: "0x4ec203dd0699fac6adaf483cdd2519bc05d2c573" },
+            { name: "DАI (ᗞАΙ) (f5a3)", value: 166.19, address: "0xddff992684187e9aba21cb4820cf85802d12f5a3" },
+            { name: "ᑌᏚᗞⅭ (ᑌᏚᗞⅭ.e) (64e9)", value: 123.17, address: "0xee21155d502f2e8d232bac50f181d1a638e164e9" },
+            { name: "UЅᗞΤ (UЅᗞΤ) (d1b5)", value: 86.04, address: "0x1c985544b078715619daced533e87977b176d1b5" },
+            { name: "ODIN (ODNX) (8bff)", value: 23.65, address: "0x979141ed998b3a01403a91228390e05339208bff" },
+            { name: "VOXEL Token (VOXEL) (0d3f)", value: 8.80, address: "0xd0258a3fd00f38aa8090dfee343f10a9d4d30d3f" },
+            { name: "ꓴᏚᗞᏟ.e (ꓴᏚᗞᏟ.e) (29ad)", value: 0.75, address: "0x9fb9bbb410fb76338311e037691bb912522129ad" },
+            { name: "Cela Token (CELA) (1afe)", value: -2.82, address: "0x65f98aa41afac485730cc7ed9a55782de0451afe" },
+            { name: "EGGRYPTO:Monster ...8600", value: -6.20, address: "0x42b4a7db1ed930198bc37971b33e86f19ce88600" },
+            { name: "ERC20 *** (3b9c)", value: -6.70, address: "0x40a68015f809c64ad655a5ac0f8fbd7bcfbb3b9c" },
+            { name: "COW-CHAR-NFT (COWCN) (85d3)", value: -3.04, address: "0x7be701f5e4f812724cd5ff5c78dc2a8e51a585d3" },
+            { name: "Quickswap (QUICK) (dc13)", value: -19.35, address: "0x831753dd7087cac61ab5644b308642cc1c33dc13" },
+            { name: "Chain Games (CHAIN) (a509)", value: -20.41, address: "0xd55fce7cdab84d84f2ef3f99816d765a2a94a509" },
+            { name: "(0x7b0c37131c90af...e054", value: -20.40, address: "0x7b0c37131c90afb8490e2d70decaaa489105e054" },
+            { name: "Kommunitas (KOM) (90b8)", value: -21.85, address: "0xc004e2318722ea2b15499d6375905d75ee5390b8" },
+            { name: "TIME Token (TIME) (3a36)", value: -23.08, address: "0x1666cf136d89ba9071c476eaf23035bccd7f3a36" },
+            { name: "Locked XSGD (blXSGD) (6c42)", value: -25.42, address: "0xfe3e6df612416f37031a61f622d5ecf027346c42" },
+            { name: "Binance (BNB) (e23f)", value: -27.37, address: "0xa649325aa7c5093d12d6f98eb4378deae68ce23f" }
+        ];
+
+        const transactionsData = [
+            { name: "Cela Token (CELA) (1afe)", value: 43317, address: "0x65f98aa41afac485730cc7ed9a55782de0451afe" },
+            { name: "ERC20 *** (3b9c)", value: 38032, address: "0x40a68015f809c64ad655a5ac0f8fbd7bcfbb3b9c" },
+            { name: "VOXEL Token (VOXEL) (0d3f)", value: 19291, address: "0xd0258a3fd00f38aa8090dfee343f10a9d4d30d3f" },
+            { name: "ODIN (ODNX) (8bff)", value: 11166, address: "0x979141ed998b3a01403a91228390e05339208bff" },
+            { name: "UЅᗞΤ (UЅᗞΤ) (d1b5)", value: 7125, address: "0x1c985544b078715619daced533e87977b176d1b5" },
+            { name: "ICHI (ICHI) (c4d6)", value: 5745, address: "0x111111517e4929d3dcbdfa7cce55d30d4b6bc4d6" },
+            { name: "DАI (ᗞАΙ) (f5a3)", value: 4081, address: "0xddff992684187e9aba21cb4820cf85802d12f5a3" },
+            { name: "Metable (MTBL) (7ebb)", value: 3616, address: "0x0c1eb50007974c4e017a6eccf751110bac287ebb" },
+            { name: "DEZ ($DEZ) (5f1e)", value: 2170, address: "0xdc4f4ed9872571d5ec8986a502a0d88f3a175f1e" },
+            { name: "STARV4 by StarSee...0b68", value: 1983, address: "0x61ffe097137d543f019f5257e1a1ff7a6c5f0b68" },
+            { name: "Quickswap (QUICK) (dc13)", value: 1816, address: "0x831753dd7087cac61ab5644b308642cc1c33dc13" },
+            { name: "METABEAT (BEAT) (c834)", value: 1766, address: "0xb78cf9ac0f47f1d69cba861deda29814d285c834" },
+            { name: "AvatarsJabWeMet (...012a", value: 1713, address: "0x0649a55263a165f34ecbcd8a8868a776a43a012a" },
+            { name: "Cobak Token (PoS)...c573", value: 1700, address: "0x4ec203dd0699fac6adaf483cdd2519bc05d2c573" },
+            { name: "Voxies (VOXIES) (0f59)", value: 1470, address: "0xfbe3ab0cbfbd17d06bdd73aa3f55aaf038720f59" },
+            { name: "COW-CHAR-NFT (COWCN) (85d3)", value: 988, address: "0x7be701f5e4f812724cd5ff5c78dc2a8e51a585d3" },
+            { name: "Chain Games (CHAIN) (a509)", value: 967, address: "0xd55fce7cdab84d84f2ef3f99816d765a2a94a509" },
+            { name: "ᑌᏚᗞⅭ (ᑌᏚᗞⅭ.e) (64e9)", value: 895, address: "0xee21155d502f2e8d232bac50f181d1a638e164e9" },
+            { name: "Kommunitas (KOM) (90b8)", value: 888, address: "0xc004e2318722ea2b15499d6375905d75ee5390b8" },
+            { name: "TIME Token (TIME) (3a36)", value: 797, address: "0x1666cf136d89ba9071c476eaf23035bccd7f3a36" }
+        ];
+
+        function createChart(svgId, data, valuePrefix = "", isGrowthChart = true) {
+            const svg = document.getElementById(svgId);
+            const width = 760;
+            const height = 600;
+            const margin = { top: 20, right: 30, bottom: 40, left: 200 };
+            const chartWidth = width - margin.left - margin.right;
+            const chartHeight = height - margin.top - margin.bottom;
+
+            const maxValue = Math.max(...data.map(d => Math.abs(d.value)));
+            const yScale = (i) => margin.top + (i * (chartHeight / data.length));
+            const xScale = (val) => (Math.abs(val) / maxValue) * chartWidth;
+
+            const zeroX = isGrowthChart ? margin.left + chartWidth / 2 : margin.left;
+
+            data.forEach((d, i) => {
+                const barGroup = document.createElementNS("http://www.w3.org/2000/svg", "g");
+                
+                const barLink = document.createElementNS("http://www.w3.org/2000/svg", "a");
+                barLink.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", `https://polygonscan.com/token/${d.address}`);
+                barLink.setAttribute("target", "_blank");
+
+                const bar = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+                const barWidth = xScale(d.value);
+                bar.setAttribute("x", isGrowthChart ? (d.value >= 0 ? zeroX : zeroX - barWidth) : zeroX);
+                bar.setAttribute("y", yScale(i));
+                bar.setAttribute("width", barWidth);
+                bar.setAttribute("height", chartHeight / data.length - 5);
+                bar.setAttribute("class", `bar ${d.value >= 0 ? 'positive' : 'negative'}`);
+                barLink.appendChild(bar);
+                barGroup.appendChild(barLink);
+
+                const label = document.createElementNS("http://www.w3.org/2000/svg", "text");
+                label.setAttribute("x", margin.left - 5);
+                label.setAttribute("y", yScale(i) + (chartHeight / data.length / 2));
+                label.setAttribute("text-anchor", "end");
+                label.setAttribute("alignment-baseline", "middle");
+                label.setAttribute("class", "bar-label");
+                label.textContent = d.name;
+                barGroup.appendChild(label);
+
+                const chartIcon = document.createElementNS("http://www.w3.org/2000/svg", "text");
+                chartIcon.setAttribute("x", margin.left - 10);
+                chartIcon.setAttribute("y", yScale(i) + (chartHeight / data.length / 2));
+                chartIcon.setAttribute("text-anchor", "middle");
+                chartIcon.setAttribute("alignment-baseline", "middle");
+                chartIcon.setAttribute("class", "chart-icon");
+                chartIcon.textContent = "📊";
+                chartIcon.style.cursor = "pointer";
+                chartIcon.addEventListener("click", () => {
+                    window.open(`https://dexscreener.com/polygon/${d.address}`, "_blank");
+                });
+                barGroup.appendChild(chartIcon);
+
+                const value = document.createElementNS("http://www.w3.org/2000/svg", "text");
+                const valueText = valuePrefix + d.value.toLocaleString();
+                const valueX = isGrowthChart 
+                    ? (d.value >= 0 ? zeroX + 5 : zeroX - 5)
+                    : zeroX + 5;
+                value.setAttribute("x", valueX);
+                value.setAttribute("y", yScale(i) + (chartHeight / data.length / 2));
+                value.setAttribute("text-anchor", isGrowthChart && d.value < 0 ? "end" : "start");
+                value.setAttribute("alignment-baseline", "middle");
+                value.setAttribute("class", "value-label");
+                value.textContent = valueText;
+                barGroup.appendChild(value);
+
+                svg.appendChild(barGroup);
+            });
+
+            if (isGrowthChart) {
+                // Zero line for growth chart
+                const zeroLine = document.createElementNS("http://www.w3.org/2000/svg", "line");
+                zeroLine.setAttribute("x1", zeroX);
+                zeroLine.setAttribute("y1", margin.top);
+                zeroLine.setAttribute("x2", zeroX);
+                zeroLine.setAttribute("y2", height - margin.bottom);
+                zeroLine.setAttribute("stroke", "black");
+                zeroLine.setAttribute("stroke-dasharray", "4");
+                svg.appendChild(zeroLine);
+            }
+
+            // X-axis
+            const xAxis = document.createElementNS("http://www.w3.org/2000/svg", "line");
+            xAxis.setAttribute("x1", margin.left);
+            xAxis.setAttribute("y1", height - margin.bottom);
+            xAxis.setAttribute("x2", width - margin.right);
+            xAxis.setAttribute("y2", height - margin.bottom);
+            xAxis.setAttribute("stroke", "black");
+            svg.appendChild(xAxis);
+
+            // Y-axis
+            const yAxis = document.createElementNS("http://www.w3.org/2000/svg", "line");
+            yAxis.setAttribute("x1", margin.left);
+            yAxis.setAttribute("y1", margin.top);
+            yAxis.setAttribute("x2", margin.left);
+            yAxis.setAttribute("y2", height - margin.bottom);
+            yAxis.setAttribute("stroke", "black");
+            svg.appendChild(yAxis);
+        }
+
+        createChart("growthChart", growthData, "", true);
+        createChart("transactionsChart", transactionsData, "", false);
+    </script>
+</body>
+</html>
