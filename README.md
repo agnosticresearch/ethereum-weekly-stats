@@ -1,3 +1,3 @@
 # ethereum-weekly-stats
 
-<img width="784" alt="image" src="https://github.com/user-attachments/assets/be43e5dd-2487-4b5e-ae4d-5b4e36935e33">
+![image](https://github.com/user-attachments/assets/e5e16c84-f00a-4507-ab4a-701212456f0f)
