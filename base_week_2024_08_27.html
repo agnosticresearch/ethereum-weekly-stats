@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Base Weekly Top 20 Tokens - Week Ending August 27, 2024</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
+        .chart-container { background-color: white; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin-bottom: 30px; padding: 20px; }
+        h1, h2 { color: #0052FF; }  /* Purple color */
+        h3 { font-size: 18px; margin-top: 0; color: #666; }
+        .bar { fill: #0052FF; cursor: pointer; }
+        .bar:hover { fill: #0052FF; }
+        .bar-label { font-size: 12px; }
+        .chart-icon { font-size: 12px; cursor: pointer; }
+        .axis-label { font-size: 14px; }
+        a { color: inherit; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <h1>Base Weekly Top 20 Tokens - Week Ending August 27, 2024</h1>
+    <a href="index.html">Back to Index</a>
+    
+    <div class="chart-container">
+        <h2>Top 20 Tokens by Growth Percentage</h2>
+        <svg id="growthChart" width="760" height="600"></svg>
+    </div>
+    
+    <div class="chart-container">
+        <h2>Top 20 Tokens by Total Transactions</h2>
+        <svg id="transactionsChart" width="760" height="600"></svg>
+    </div>
+
+    <script>
+const growthData = [
+  { name: "Goldfish (FISH) (cddf)", value: 5103.95, address: "0x5812fb91b48467dbbe3394d6d3ef7be9707dcddf" },
+  { name: "MINKY (MINKY) (ea6f)", value: 988.66, address: "0xf9b738c2e7adc4f299c57afd0890b925a5efea6f" },
+  { name: "LUNARLENS (LUNARL...19e5", value: 422.02, address: "0xf95e1c0a67492720ca22842122fe7fa63d5519e5" },
+  { name: "Workie (WORKIE) (55e9)", value: 327.16, address: "0x7480527815ccae421400da01e052b120cc4255e9" },
+  { name: "The Innovation Ga...9f7b", value: 265.12, address: "0x0c03ce270b4826ec62e7dd007f0b716068639f7b" },
+  { name: "Based Shiba Inu (...33ea", value: 661.19, address: "0xfea9dcdc9e23a9068bf557ad5b186675c61d33ea" },
+  { name: "Fair Market Fox (...78ad", value: 791.02, address: "0x12f9e70b58a02c548b4766e2d6db204c205a78ad" },
+  { name: "Booger (BOOG) (c1ea)", value: 479.11, address: "0xa738cb9635b9954e8bfaccb584adecf3ff8dc1ea" },
+  { name: "Based ARGH (ARGH) (56fb)", value: 498.04, address: "0x794dbe94cc260a0f7adc0c18c2372f9cd52d56fb" },
+  { name: "Free Durov (Free ...3555", value: 45.31, address: "0x005629525c215db9ff5efd84f45e62f84a853555" },
+  { name: "Refugee (RFG) (6331)", value: 280.00, address: "0xa5053c346f4759198bd6b64171db1eff4cba6331" },
+  { name: "MemeLordz Token (...54a1", value: 154.96, address: "0x32b133add6d99d085ff23f522662b546b70d54a1" },
+  { name: "ERC20 *** (9169)", value: 199.61, address: "0xf42f5795d9ac7e9d757db633d693cd548cfd9169" },
+  { name: "BaseCTO (CTO) (397d)", value: 130.79, address: "0x2075f6e2147d4ac26036c9b4084f8e28b324397d" },
+  { name: "Mojo (MOJO) (1373)", value: 127.78, address: "0x6dba065721435cfca05caa508f3316b637861373" }
+].sort((a, b) => b.value - a.value);  // Sort in descending order
+
+const transactionsData = [
+  { name: "Wrapped Ether (WETH) (0006)", value: 10619097, address: "0x4200000000000000000000000000000000000006" },
+  { name: "Aerodrome (AERO) (8631)", value: 2783136, address: "0x940181a94a35a4569e4529a3cdfb74e38fd98631" },
+  { name: "USD Base Coin (US...b6ca", value: 733652, address: "0xd9aaec86b65d86f6a7b5b1b0c42ffa531710b6ca" },
+  { name: "Brett (BRETT) (42e4)", value: 271327, address: "0x532f27101965dd16442e59d40670faf5ebb142e4" },
+  { name: "LUNARLENS (LUNARL...19e5", value: 189193, address: "0xf95e1c0a67492720ca22842122fe7fa63d5519e5" },
+  { name: "Tadpole (TAD) (173e)", value: 378312, address: "0x55027a5b06f4340cc4c82dcc74c90ca93dcb173e" },
+  { name: "USD+ (USD+) (4376)", value: 227857, address: "0xb79dd08ea68a908a97220c76d19a6aa9cbde4376" },
+  { name: "BasedPepe (PEPE) (777d)", value: 358347, address: "0x52b492a33e447cdb854c7fc19f1e57e8bfa1777d" },
+  { name: "Degen (DEGEN) (efed)", value: 133716, address: "0x4ed4e862860bed51a9570b96d89af5e1b0efefed" },
+  { name: "MINKY (MINKY) (ea6f)", value: 127304, address: "0xf9b738c2e7adc4f299c57afd0890b925a5efea6f" },
+  { name: "Dai Stablecoin (DAI) (b0cb)", value: 110328, address: "0x50c5725949a6f0c72e6c4a641f24049a917db0cb" },
+  { name: "Mojo (MOJO) (1373)", value: 54682, address: "0x6dba065721435cfca05caa508f3316b637861373" },
+  { name: "Aave Base WETH (a...8bb7", value: 48068, address: "0xd4a0e0b9149bcee3c920d2e00b5de09138fd8bb7" },
+  { name: "Goldfish (FISH) (cddf)", value: 31146, address: "0x5812fb91b48467dbbe3394d6d3ef7be9707dcddf" },
+  { name: "Workie (WORKIE) (55e9)", value: 30166, address: "0x7480527815ccae421400da01e052b120cc4255e9" }
+].sort((a, b) => b.value - a.value);  // Sort in descending order;
+
+        function createChart(svgId, data, valuePrefix = "") {
+            const svg = document.getElementById(svgId);
+            const width = 760;
+            const height = 600;
+            const margin = { top: 20, right: 30, bottom: 40, left: 200 };
+            const chartWidth = width - margin.left - margin.right;
+            const chartHeight = height - margin.top - margin.bottom;
+
+            const maxValue = Math.max(...data.map(d => d.value));
+            const yScale = (i) => margin.top + (i * (chartHeight / data.length));
+            const xScale = (val) => (val / maxValue) * chartWidth;
+
+            data.forEach((d, i) => {
+                const barGroup = document.createElementNS("http://www.w3.org/2000/svg", "g");
+                
+                const barLink = document.createElementNS("http://www.w3.org/2000/svg", "a");
+                barLink.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", `https://basescan.org/token/${d.address}`);
+                barLink.setAttribute("target", "_blank");
+
+                const bar = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+                bar.setAttribute("x", margin.left);
+                bar.setAttribute("y", yScale(i));
+                bar.setAttribute("width", xScale(d.value));
+                bar.setAttribute("height", chartHeight / data.length - 5);
+                bar.setAttribute("class", "bar");
+                barLink.appendChild(bar);
+                barGroup.appendChild(barLink);
+
+                const label = document.createElementNS("http://www.w3.org/2000/svg", "text");
+                label.setAttribute("x", margin.left - 25);
+                label.setAttribute("y", yScale(i) + (chartHeight / data.length / 2));
+                label.setAttribute("text-anchor", "end");
+                label.setAttribute("alignment-baseline", "middle");
+                label.setAttribute("class", "bar-label");
+                label.textContent = d.name;
+                barGroup.appendChild(label);
+
+                const chartIcon = document.createElementNS("http://www.w3.org/2000/svg", "text");
+                chartIcon.setAttribute("x", margin.left - 10);
+                chartIcon.setAttribute("y", yScale(i) + (chartHeight / data.length / 2));
+                chartIcon.setAttribute("text-anchor", "middle");
+                chartIcon.setAttribute("alignment-baseline", "middle");
+                chartIcon.setAttribute("class", "chart-icon");
+                chartIcon.textContent = "📊";
+                chartIcon.style.cursor = "pointer";
+                chartIcon.addEventListener("click", () => {
+                    window.open(`https://dexscreener.com/base/${d.address}`, "_blank");
+                });
+                barGroup.appendChild(chartIcon);
+
+                const value = document.createElementNS("http://www.w3.org/2000/svg", "text");
+                value.setAttribute("x", margin.left + xScale(d.value) + 5);
+                value.setAttribute("y", yScale(i) + (chartHeight / data.length / 2));
+                value.setAttribute("alignment-baseline", "middle");
+                value.setAttribute("class", "bar-label");
+                value.textContent = valuePrefix + d.value.toLocaleString();
+                barGroup.appendChild(value);
+
+                svg.appendChild(barGroup);
+            });
+
+            // X-axis
+            const xAxis = document.createElementNS("http://www.w3.org/2000/svg", "line");
+            xAxis.setAttribute("x1", margin.left);
+            xAxis.setAttribute("y1", height - margin.bottom);
+            xAxis.setAttribute("x2", width - margin.right);
+            xAxis.setAttribute("y2", height - margin.bottom);
+            xAxis.setAttribute("stroke", "black");
+            svg.appendChild(xAxis);
+
+            // Y-axis
+            const yAxis = document.createElementNS("http://www.w3.org/2000/svg", "line");
+            yAxis.setAttribute("x1", margin.left);
+            yAxis.setAttribute("y1", margin.top);
+            yAxis.setAttribute("x2", margin.left);
+            yAxis.setAttribute("y2", height - margin.bottom);
+            yAxis.setAttribute("stroke", "black");
+            svg.appendChild(yAxis);
+        }
+
+        createChart("growthChart", growthData, "+");
+        createChart("transactionsChart", transactionsData);
+    </script>
+</body>
+</html>

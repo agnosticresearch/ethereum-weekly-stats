@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Polygon Weekly Top 20 Tokens - Week Ending August 27, 2024</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
+        .chart-container { background-color: white; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin-bottom: 30px; padding: 20px; }
+        h1, h2 { color: #8247E5; }
+        h3 { font-size: 18px; margin-top: 0; color: #666; }
+        .bar { fill: #8247E5; }
+        .bar:hover { opacity: 0.8; }
+        .bar-label { font-size: 12px; fill: black; }
+        .value-label { font-size: 12px; fill: black; }
+        .chart-icon { font-size: 12px; cursor: pointer; }
+        a { color: inherit; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <h1>Polygon Weekly Top 20 Tokens - Week Ending August 27, 2024</h1>
+    <a href="index.html">Back to Index</a>
+
+    <div class="chart-container">
+        <h2>Top 20 Tokens by Growth Percentage</h2>
+        <svg id="growthChart" width="760" height="600"></svg>
+    </div>
+
+    <div class="chart-container">
+        <h2>Top 20 Tokens by Total Transactions</h2>
+        <svg id="transactionsChart" width="760" height="600"></svg>
+    </div>
+
+    <script>
+        const growthData = [
+  { name: "Chip Q - tier-1 (...c078", value: 1255.33, address: "0xa736884e6906c215501cdac091c1783f5b7fc078" },
+  { name: "Chip Q - tier-2 (...f299", value: 1173.53, address: "0x386db833c8db141db4b116120b5552c60d98f299" },
+  { name: "Chip Q - tier-3 (...a252", value: 1043.86, address: "0xb8eeb56a491708b2f78fc7425feecd826896a252" },
+  { name: "Chip Q - tier-4 (...ec4d", value: 894.11, address: "0xe2d759095b7bd0082c0d9bc776c223e5b3d7ec4d" },
+  { name: "Chip Q - tier-6 (...532e", value: 888.13, address: "0xae0379ddd83d55ccc35f362a67d5dd234ee2532e" },
+  { name: "Chip Q - tier-5 (...e2a4", value: 861.96, address: "0x6c72093c804cec9148b3fb08fe7ea23b4acee2a4" },
+  { name: "Chip Q - tier-7 (...42be", value: 851.10, address: "0x8cfe94623856e3a004a77699ece68f92c93c42be" },
+  { name: "Chip Q - tier-8 (...c45c", value: 823.37, address: "0xfe14983c9b1d9d7d243261b5a0ad91c0b0f7c45c" },
+  { name: "Chip Q - tier-9 (...d68c", value: 664.98, address: "0x03b25833d10ff7b191e1b3300661943f13c2d68c" },
+  { name: "Member zone solut...8fa7", value: 94.74, address: "0x1adb749ffda33251e1503672951b5a4234518fa7" },
+  { name: "Aavegotchi GHST T...54a7", value: 71.21, address: "0x385eeac5cb85a38a9a07a70c73e0a3271cfb54a7" },
+  { name: "ChainLink Token (...e0f1", value: 29.73, address: "0xb0897686c545045afc77cf20ec7a532e3120e0f1" },
+  { name: "LegendsOfElysium ...d871", value: 12.47, address: "0x8b78927048de67b9e8c8f834359f15c3822ed871" },
+  { name: "ERC20 *** (a2f3)", value: 12.84, address: "0x8038857fd47108a07d1f6bf652ef1cbec279a2f3" },
+  { name: "Objekt (OBJEKT) (a200)", value: 6.94, address: "0x0fb69f54ba90f17578a59823e09e5a1f8f3fa200" }
+].sort((a, b) => b.value - a.value);  // Sort in descending order
+
+const transactionsData = [
+  { name: "Chip Q - tier-1 (...c078", value: 662271, address: "0xa736884e6906c215501cdac091c1783f5b7fc078" },
+  { name: "Chip Q - tier-2 (...f299", value: 441662, address: "0x386db833c8db141db4b116120b5552c60d98f299" },
+  { name: "Chip Q - tier-3 (...a252", value: 306752, address: "0xb8eeb56a491708b2f78fc7425feecd826896a252" },
+  { name: "Chip Q - tier-4 (...ec4d", value: 151929, address: "0xe2d759095b7bd0082c0d9bc776c223e5b3d7ec4d" },
+  { name: "Chip Q - tier-5 (...e2a4", value: 97553, address: "0x6c72093c804cec9148b3fb08fe7ea23b4acee2a4" },
+  { name: "Chip Q - tier-6 (...532e", value: 60823, address: "0xae0379ddd83d55ccc35f362a67d5dd234ee2532e" },
+  { name: "ERC20 *** (3b9c)", value: 36476, address: "0x40a68015f809c64ad655a5ac0f8fbd7bcfbb3b9c" },
+  { name: "Chip Q - tier-7 (...42be", value: 31114, address: "0x8cfe94623856e3a004a77699ece68f92c93c42be" },
+  { name: "ChainLink Token (...e0f1", value: 22480, address: "0xb0897686c545045afc77cf20ec7a532e3120e0f1" },
+  { name: "Chip Q - tier-8 (...c45c", value: 17344, address: "0xfe14983c9b1d9d7d243261b5a0ad91c0b0f7c45c" },
+  { name: "Objekt (OBJEKT) (a200)", value: 12339, address: "0x0fb69f54ba90f17578a59823e09e5a1f8f3fa200" },
+  { name: "Aavegotchi GHST T...54a7", value: 12267, address: "0x385eeac5cb85a38a9a07a70c73e0a3271cfb54a7" },
+  { name: "Chip Q - tier-9 (...d68c", value: 11627, address: "0x03b25833d10ff7b191e1b3300661943f13c2d68c" },
+  { name: "CargoX (CXO) (da58)", value: 44831, address: "0xf2ae0038696774d65e67892c9d301c5f2cbbda58" },
+  { name: "ICHI (ICHI) (c4d6)", value: 6274, address: "0x111111517e4929d3dcbdfa7cce55d30d4b6bc4d6" }
+].sort((a, b) => b.value - a.value);  // Sort in descending order
+
+        function createChart(svgId, data, valuePrefix = "", isGrowthChart = false) {
+            const svg = document.getElementById(svgId);
+            const width = 760;
+            const height = 600;
+            const margin = { top: 20, right: 30, bottom: 40, left: 200 };
+            const chartWidth = width - margin.left - margin.right;
+            const chartHeight = height - margin.top - margin.bottom;
+
+            const maxValue = Math.max(...data.map(d => Math.abs(d.value)));
+            const yScale = (i) => margin.top + (i * (chartHeight / data.length));
+            const xScale = (val) => (Math.abs(val) / maxValue) * chartWidth;
+
+            data.forEach((d, i) => {
+                const barGroup = document.createElementNS("http://www.w3.org/2000/svg", "g");
+
+                const barLink = document.createElementNS("http://www.w3.org/2000/svg", "a");
+                barLink.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", `https://polygonscan.com/token/${d.address}`);
+                barLink.setAttribute("target", "_blank");
+
+                const bar = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+                bar.setAttribute("x", margin.left);
+                bar.setAttribute("y", yScale(i));
+                bar.setAttribute("width", xScale(d.value));
+                bar.setAttribute("height", chartHeight / data.length - 5);
+                bar.setAttribute("class", "bar");
+                barLink.appendChild(bar);
+                barGroup.appendChild(barLink);
+
+                const label = document.createElementNS("http://www.w3.org/2000/svg", "text");
+                label.setAttribute("x", margin.left - 30);
+                label.setAttribute("y", yScale(i) + (chartHeight / data.length / 2));
+                label.setAttribute("text-anchor", "end");
+                label.setAttribute("alignment-baseline", "middle");
+                label.setAttribute("class", "bar-label");
+                label.textContent = d.name;
+                barGroup.appendChild(label);
+
+                const chartIcon = document.createElementNS("http://www.w3.org/2000/svg", "text");
+                chartIcon.setAttribute("x", margin.left - 10);
+                chartIcon.setAttribute("y", yScale(i) + (chartHeight / data.length / 2));
+                chartIcon.setAttribute("text-anchor", "middle");
+                chartIcon.setAttribute("alignment-baseline", "middle");
+                chartIcon.setAttribute("class", "chart-icon");
+                chartIcon.textContent = "📊";
+                chartIcon.style.cursor = "pointer";
+                chartIcon.addEventListener("click", (e) => {
+                    e.preventDefault();
+                    window.open(`https://dexscreener.com/polygon/${d.address}`, "_blank");
+                });
+                barGroup.appendChild(chartIcon);
+
+                const value = document.createElementNS("http://www.w3.org/2000/svg", "text");
+                const valueText = valuePrefix + d.value.toLocaleString();
+                value.setAttribute("x", margin.left + xScale(d.value) + 5);
+                value.setAttribute("y", yScale(i) + (chartHeight / data.length / 2));
+                value.setAttribute("text-anchor", "start");
+                value.setAttribute("alignment-baseline", "middle");
+                value.setAttribute("class", "value-label");
+                value.textContent = valueText;
+                barGroup.appendChild(value);
+
+                svg.appendChild(barGroup);
+            });
+
+            // X-axis
+            const xAxis = document.createElementNS("http://www.w3.org/2000/svg", "line");
+            xAxis.setAttribute("x1", margin.left);
+            xAxis.setAttribute("y1", height - margin.bottom);
+            xAxis.setAttribute("x2", width - margin.right);
+            xAxis.setAttribute("y2", height - margin.bottom);
+            xAxis.setAttribute("stroke", "black");
+            svg.appendChild(xAxis);
+
+            // Y-axis
+            const yAxis = document.createElementNS("http://www.w3.org/2000/svg", "line");
+            yAxis.setAttribute("x1", margin.left);
+            yAxis.setAttribute("y1", margin.top);
+            yAxis.setAttribute("x2", margin.left);
+            yAxis.setAttribute("y2", height - margin.bottom);
+            yAxis.setAttribute("stroke", "black");
+            svg.appendChild(yAxis);
+        }
+
+        createChart("growthChart", growthData, "+", true);
+        createChart("transactionsChart", transactionsData, "", false);
+    </script>
+</body>
+</html>
