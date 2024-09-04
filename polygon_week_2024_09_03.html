@@ -91,7 +91,7 @@ function createChart(svgId, data, valuePrefix = "", isGrowthChart = false) {
         const barGroup = document.createElementNS("http://www.w3.org/2000/svg", "g");
 
         const barLink = document.createElementNS("http://www.w3.org/2000/svg", "a");
-        barLink.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", `https://basescan.org/token/${d.address}`);
+        barLink.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", `https://polygonscan.com/token/${d.address}`);
         barLink.setAttribute("target", "_blank");
 
         const barWidth = xScale(d.value);
@@ -149,7 +149,7 @@ function createChart(svgId, data, valuePrefix = "", isGrowthChart = false) {
         chartIcon.style.cursor = "pointer";
         chartIcon.addEventListener("click", (e) => {
             e.preventDefault();
-            window.open(`https://dexscreener.com/base/${d.address}`, "_blank");
+            window.open(`https://dexscreener.com/polygon/${d.address}`, "_blank");
         });
         barGroup.appendChild(chartIcon);
 
