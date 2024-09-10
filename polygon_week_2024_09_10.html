@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Polygon Weekly Top 20 Tokens - Week Ending September 3, 2024</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
+        .chart-container { background-color: white; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin-bottom: 30px; padding: 20px; }
+        h1, h2 { color: #8247E5; }
+        h3 { font-size: 18px; margin-top: 0; color: #666; }
+        .bar { fill: #8247E5; }
+        .bar:hover { opacity: 0.8; }
+        .bar-label { font-size: 12px; fill: black; }
+        .value-label { font-size: 12px; fill: black; }
+        .value-label.large-bar {fill: white;}
+        .value-label.small-bar {fill: black;}
+        .chart-icon { font-size: 12px; cursor: pointer; }
+        a { color: inherit; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <h1>Polygon Weekly Top 15 Tokens - Week Ending September 10, 2024</h1>
+    <a href="index.html">Back to Index</a>
+    
+    <div class="chart-container">
+        <h2>Top 15 Tokens by Unique User Growth Percentage</h2>
+        <svg id="growthChart" width="760" height="600"></svg>
+    </div>
+    
+    <div class="chart-container">
+        <h2>Top 15 Tokens by Total Transactions (in Thousands)</h2>
+        <svg id="transactionsChart" width="760" height="600"></svg>
+    </div>
+
+    <script>
+const growthData = [
+    { name: "Falcon (Falcon)", value: 402.35, address: "0x45b0bf770edad9b3a8aaa015b47a1f46a7cf956f", token_type: "ERC-20" },
+    { name: "BET (BET)", value: 183.95, address: "0xbf7970d56a150cd0b60bd08388a4a75a27777777", token_type: "ERC-20" },
+    { name: "Aavegotchi GHST Token (PoS) (GHST)", value: 150.16, address: "0x385eeac5cb85a38a9a07a70c73e0a3271cfb54a7", token_type: "ERC-20" },
+    { name: "MetaHub Finance (MEN)", value: 151.51, address: "0x94b959c93761835f634b8d6e655070c58e2caa12", token_type: "ERC-20" },
+    { name: "(PoS) Tеthеr UЅD (UЅDТ)", value: 139.28, address: "0x9c433365d9e52e118abfb569da55051f16b31b5f", token_type: "ERC-20" },
+    { name: "COW-PET-NFT (COWPN)", value: 129.83, address: "0xb5d8cda05619a473098f2d34794dbb69f3615769", token_type: "ERC-721" },
+    { name: "COW-CHAR-NFT (COWCN)", value: 135.79, address: "0x7be701f5e4f812724cd5ff5c78dc2a8e51a585d3", token_type: "ERC-721" },
+    { name: "UЅD Cоin (UЅDС)", value: 114.66, address: "0x432e016e834081039bef42566ebdc50ebb8ae894", token_type: "ERC-20" },
+    { name: "Kratos Cash (KCASH)", value: 112.11, address: "0xcd3083917fd5763f20754dcd9c0cf4eb9245ae3c", token_type: "ERC-20" },
+    { name: "GreenMetaverseToken (GMT)", value: 118.01, address: "0x714db550b574b3e927af3d93e26127d15721d4c2", token_type: "ERC-20" },
+    { name: "Brilliantcrypto Token (BRIL)", value: 117.44, address: "0x4f800ba0dff2980c5006c6816f7aa3de63ce8087", token_type: "ERC-20" },
+    { name: "VOXEL Token (VOXEL)", value: 107.69, address: "0xd0258a3fd00f38aa8090dfee343f10a9d4d30d3f", token_type: "ERC-20" },
+    { name: "(PoS) Ꭰai Ѕtablecoin (ᎠAI)", value: 105.38, address: "0x44a2df2d6481d327e81e30de5462601edd52e47d", token_type: "ERC-20" },
+    { name: "Super Useless Token (SUT)", value: 105.61, address: "0x57211299bc356319ba5ca36873eb06896173f8bc", token_type: "ERC-20" },
+    { name: "am3CRV: Aave LP Token", value: 198.49, address: "0xe7a24ef0c5e95ffb0f6684b813a78f2a3ad7d171", token_type: "ERC-20" }
+].sort((a, b) => b.value - a.value);
+
+const transactionsData = [
+    { name: "USD Coin (PoS) (USDC.e)", value: 5284.24, address: "0x2791bca1f2de4661ed88a30c99a7a9449aa84174", token_type: "ERC-20" },
+    { name: "(PoS) Tether USD (USDT)", value: 4563.65, address: "0xc2132d05d31c914a87c6611c10748aeb04b58e8f", token_type: "ERC-20" },
+    { name: "Wrapped Matic (WMATIC)", value: 3109.07, address: "0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270", token_type: "ERC-20" },
+    { name: "Wrapped Ether (WETH)", value: 2085.17, address: "0x7ceb23fd6bc0add59e62ac25578270cff1b9f619", token_type: "ERC-20" },
+    { name: "USD Coin (USDC)", value: 1769.31, address: "0x3c499c542cef5e3811e1192ce70d8cc03d5c3359", token_type: "ERC-20" },
+    { name: "(PoS) Dai Stablecoin (DAI)", value: 1821.32, address: "0x8f3cf7ad23cd3cadbd9735aff958023239c6a063", token_type: "ERC-20" },
+    { name: "(PoS) Wrapped BTC (WBTC)", value: 793.47, address: "0x1bfd67037b42cf73acf2047067bd4f2c47d9bfd6", token_type: "ERC-20" },
+    { name: "Opex (OPX)", value: 363.28, address: "0xa3fb72cbf2e07dc1b34aea569ed40755fd978bd8", token_type: "ERC-20" },
+    { name: "GreenMetaverseToken (GMT)", value: 392.79, address: "0x714db550b574b3e927af3d93e26127d15721d4c2", token_type: "ERC-20" },
+    { name: "Longinus (LGNS)", value: 438.73, address: "0xeb51d9a39ad5eef215dc0bf39a8821ff804a0f01", token_type: "ERC-20" },
+    { name: "am3CRV: Aave LP Token", value: 291.87, address: "0x40a68015f809c64ad655a5ac0f8fbd7bcfbb3b9c", token_type: "ERC-20" },
+    { name: "ChainLink Token (LINK)", value: 263.17, address: "0x53e0bca35ec356bd5dddfebbd1fc0fd03fabad39", token_type: "ERC-20" },
+    { name: "Brilliantcrypto Token (BRIL)", value: 222.02, address: "0x4f800ba0dff2980c5006c6816f7aa3de63ce8087", token_type: "ERC-20" },
+    { name: "BET (BET)", value: 213.05, address: "0xbf7970d56a150cd0b60bd08388a4a75a27777777", token_type: "ERC-20" },
+    { name: "Gas Hero Items (GHITM)", value: 207.85, address: "0xf6011e7f61cc9154839f0b10af7372cea8000f71", token_type: "ERC-721" }
+].sort((a, b) => b.value - a.value);
+
+function createChart(svgId, data, valuePrefix = "", isGrowthChart = false) {
+    const svg = document.getElementById(svgId);
+    const width = 760;
+    const height = 600;
+    const margin = { top: 20, right: 30, bottom: 40, left: 200 };
+    const chartWidth = width - margin.left - margin.right;
+    const chartHeight = height - margin.top - margin.bottom;
+
+    // Clear existing content
+    while (svg.firstChild) {
+        svg.removeChild(svg.firstChild);
+    }
+
+    const maxValue = Math.max(...data.map(d => Math.abs(d.value)));
+    const yScale = (i) => margin.top + (i * (chartHeight / data.length));
+    const xScale = (val) => (Math.abs(val) / maxValue) * chartWidth;
+
+    data.forEach((d, i) => {
+        const barGroup = document.createElementNS("http://www.w3.org/2000/svg", "g");
+
+        const barLink = document.createElementNS("http://www.w3.org/2000/svg", "a");
+        barLink.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", `https://polygonscan.com/token/${d.address}`);
+        barLink.setAttribute("target", "_blank");
+
+        const barWidth = xScale(d.value);
+        const bar = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+        bar.setAttribute("x", margin.left);
+        bar.setAttribute("y", yScale(i));
+        bar.setAttribute("width", barWidth);
+        bar.setAttribute("height", chartHeight / data.length - 5);
+        bar.setAttribute("class", "bar");
+        barLink.appendChild(bar);
+        barGroup.appendChild(barLink);
+
+        // Token name (address label) - always to the left of the bar
+        const label = document.createElementNS("http://www.w3.org/2000/svg", "text");
+        label.setAttribute("x", margin.left - 10);
+        label.setAttribute("y", yScale(i) + (chartHeight / data.length / 2));
+        label.setAttribute("text-anchor", "end");
+        label.setAttribute("alignment-baseline", "middle");
+        label.setAttribute("class", "bar-label");
+        label.setAttribute("fill", "black");
+        label.textContent = d.name;
+        barGroup.appendChild(label);
+
+        // Numerical label
+        const value = document.createElementNS("http://www.w3.org/2000/svg", "text");
+        const valueText = valuePrefix + d.value.toLocaleString();
+        value.setAttribute("y", yScale(i) + (chartHeight / data.length / 2));
+        value.setAttribute("alignment-baseline", "middle");
+        value.setAttribute("class", "value-label");
+
+        // Position the numerical label based on bar size
+        if (barWidth > 50) {
+            value.setAttribute("x", margin.left + barWidth - 5);
+            value.setAttribute("text-anchor", "end");
+            value.setAttribute("fill", "white");
+            value.classList.add("large-bar");
+        } else {
+            value.setAttribute("x", margin.left + barWidth + 5);
+            value.setAttribute("text-anchor", "start");
+            value.setAttribute("fill", "black");
+            value.classList.add("small-bar");
+        }
+        value.textContent = valueText;
+        barGroup.appendChild(value);
+
+        const chartIcon = document.createElementNS("http://www.w3.org/2000/svg", "text");
+        chartIcon.setAttribute("x", margin.left - 5);
+        chartIcon.setAttribute("y", yScale(i) + (chartHeight / data.length / 2));
+        chartIcon.setAttribute("text-anchor", "middle");
+        chartIcon.setAttribute("alignment-baseline", "middle");
+        chartIcon.setAttribute("class", "chart-icon");
+        chartIcon.textContent = "📊";
+        chartIcon.style.cursor = "pointer";
+        chartIcon.addEventListener("click", (e) => {
+            e.preventDefault();
+            // Open link based on token_type
+            if (d.token_type === "ERC-721") {
+                window.open(`https://polygon.nftscan.com/${d.address}`, "_blank");
+            } else {
+                window.open(`https://dexscreener.com/polygon/${d.address}`, "_blank");
+            }
+        });
+        barGroup.appendChild(chartIcon);
+
+        svg.appendChild(barGroup);
+    });
+
+    // X-axis
+    const xAxis = document.createElementNS("http://www.w3.org/2000/svg", "line");
+    xAxis.setAttribute("x1", margin.left);
+    xAxis.setAttribute("y1", height - margin.bottom);
+    xAxis.setAttribute("x2", width - margin.right);
+    xAxis.setAttribute("y2", height - margin.bottom);
+    xAxis.setAttribute("stroke", "black");
+    svg.appendChild(xAxis);
+
+    // Y-axis
+    const yAxis = document.createElementNS("http://www.w3.org/2000/svg", "line");
+    yAxis.setAttribute("x1", margin.left);
+    yAxis.setAttribute("y1", margin.top);
+    yAxis.setAttribute("x2", margin.left);
+    yAxis.setAttribute("y2", height - margin.bottom);
+    yAxis.setAttribute("stroke", "black");
+    svg.appendChild(yAxis);
+}
+
+    createChart("growthChart", growthData, "+", true);
+    createChart("transactionsChart", transactionsData, "", false);
+
+    </script>
+</body>
+</html>
