@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Polygon Weekly Top 20 Tokens - Week Ending September 17, 2024</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
+        .chart-container { background-color: white; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin-bottom: 30px; padding: 20px; }
+        h1, h2 { color: #8247E5; }
+        h3 { font-size: 18px; margin-top: 0; color: #666; }
+        .bar { fill: #8247E5; }
+        .bar:hover { opacity: 0.8; }
+        .bar-label { font-size: 12px; fill: black; }
+        .value-label { font-size: 12px; fill: black; }
+        .value-label.large-bar {fill: white;}
+        .value-label.small-bar {fill: black;}
+        .chart-icon { font-size: 12px; cursor: pointer; }
+        a { color: inherit; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <h1>Polygon Weekly Top 15 Tokens - Week Ending September 17, 2024</h1>
+    <a href="index.html">Back to Index</a>
+    
+    <div class="chart-container">
+        <h2>Top 15 Tokens by Unique User Growth Percentage</h2>
+        <svg id="growthChart" width="760" height="600"></svg>
+    </div>
+    
+    <div class="chart-container">
+        <h2>Top 15 Tokens by Total Transactions (in Thousands)</h2>
+        <svg id="transactionsChart" width="760" height="600"></svg>
+    </div>
+
+    <script>
+const growthData = [
+    { name: "Kratos Cash (KCASH) (ae3c)", value: 366.31, address: "0xcd3083917fd5763f20754dcd9c0cf4eb9245ae3c" },
+    { name: "Chip Q - tier-5 (...e2a4", value: 175.40, address: "0x6c72093c804cec9148b3fb08fe7ea23b4acee2a4" },
+    { name: "Chip Q - tier-4 (...ec4d", value: 154.88, address: "0xe2d759095b7bd0082c0d9bc776c223e5b3d7ec4d" },
+    { name: "Objekt (OBJEKT) (c99b)", value: 130.75, address: "0xa4b37be40f7b231ee9574c4b16b7ddb7eacdc99b" },
+    { name: "Opex (OPX) (8bd8)", value: 128.19, address: "0xa3fb72cbf2e07dc1b34aea569ed40755fd978bd8" },
+    { name: "Chronicles Of War...c6e3", value: 120.43, address: "0x6fd731121d27cde36d583878bfee80586d66c6e3" },
+    { name: "MLG Entry Token (...67af", value: 119.92, address: "0x79940436c6a70bad4ecb6a41f4ebfd4735b767af" },
+    { name: "Chip Q - tier-3 (...a252", value: 113.61, address: "0xb8eeb56a491708b2f78fc7425feecd826896a252" },
+    { name: "Sunflower Land (SFL) (fc05)", value: 111.74, address: "0xd1f9c58e33933a993a3891f8acfe05a68e1afc05" },
+    { name: "Matr1x Fire Token...e3c2", value: 106.09, address: "0x838c9634de6590b96aeadc4bc6db5c28fd17e3c2" },
+    { name: "COW-PET-NFT (COWPN) (5769)", value: 104.06, address: "0xb5d8cda05619a473098f2d34794dbb69f3615769" },
+    { name: "Chip Q - tier-2 (...f299", value: 103.33, address: "0x386db833c8db141db4b116120b5552c60d98f299" },
+    { name: "Staked Longinus (...9725", value: 102.42, address: "0x99a57e6c8558bc6689f894e068733adf83c19725" },
+    { name: "USD Coin (USDC) (3359)", value: 101.60, address: "0x3c499c542cef5e3811e1192ce70d8cc03d5c3359" },
+    { name: "Longinus (LGNS) (0f01)", value: 100.79, address: "0xeb51d9a39ad5eef215dc0bf39a8821ff804a0f01" }
+].sort((a, b) => b.value - a.value);
+
+const transactionsData = [
+    { name: "USD Coin (PoS) (U...4174", value: 4840581, address: "0x2791bca1f2de4661ed88a30c99a7a9449aa84174" },
+    { name: "(PoS) Tether USD ...8e8f", value: 4350653, address: "0xc2132d05d31c914a87c6611c10748aeb04b58e8f" },
+    { name: "Wrapped Matic (WM...1270", value: 2867755, address: "0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270" },
+    { name: "Wrapped Ether (WETH) (f619)", value: 1982203, address: "0x7ceb23fd6bc0add59e62ac25578270cff1b9f619" },
+    { name: "Forcecoin(MFS) (0555)", value: 2149857, address: "0xb447aafc36b85e4e1267ec43e6a945ff1edf0555" },
+    { name: "USD Coin (USDC) (3359)", value: 1726959, address: "0x3c499c542cef5e3811e1192ce70d8cc03d5c3359" },
+    { name: "(PoS) Dai Stablec...a063", value: 1509620, address: "0x8f3cf7ad23cd3cadbd9735aff958023239c6a063" },
+    { name: "(PoS) Wrapped BTC...bfd6", value: 604621, address: "0x1bfd67037b42cf73acf2047067bd4f2c47d9bfd6" },
+    { name: "Opex (OPX) (8bd8)", value: 471781, address: "0xa3fb72cbf2e07dc1b34aea569ed40755fd978bd8" },
+    { name: "Longinus (LGNS) (0f01)", value: 466138, address: "0xeb51d9a39ad5eef215dc0bf39a8821ff804a0f01" },
+    { name: "GreenMetaverseTok...d4c2", value: 378811, address: "0x714db550b574b3e927af3d93e26127d15721d4c2" },
+    { name: "Brilliantcrypto T...8087", value: 245871, address: "0x4f800ba0dff2980c5006c6816f7aa3de63ce8087" },
+    { name: "BET (BET) (7777)", value: 245218, address: "0xbf7970d56a150cd0b60bd08388a4a75a27777777" },
+    { name: "Kratos Cash (KCASH) (ae3c)", value: 205522, address: "0xcd3083917fd5763f20754dcd9c0cf4eb9245ae3c" },
+    { name: "ChainLink Token (...ad39)", value: 203569, address: "0x53e0bca35ec356bd5dddfebbd1fc0fd03fabad39" }
+].sort((a, b) => b.value - a.value);
+
+function createChart(svgId, data, valuePrefix = "", isGrowthChart = false) {
+    const svg = document.getElementById(svgId);
+    const width = 760;
+    const height = 600;
+    const margin = { top: 20, right: 30, bottom: 40, left: 200 };
+    const chartWidth = width - margin.left - margin.right;
+    const chartHeight = height - margin.top - margin.bottom;
+
+    // Clear existing content
+    while (svg.firstChild) {
+        svg.removeChild(svg.firstChild);
+    }
+
+    const maxValue = Math.max(...data.map(d => Math.abs(d.value)));
+    const yScale = (i) => margin.top + (i * (chartHeight / data.length));
+    const xScale = (val) => (Math.abs(val) / maxValue) * chartWidth;
+
+    data.forEach((d, i) => {
+        const barGroup = document.createElementNS("http://www.w3.org/2000/svg", "g");
+
+        const barLink = document.createElementNS("http://www.w3.org/2000/svg", "a");
+        barLink.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", `https://polygonscan.com/token/${d.address}`);
+        barLink.setAttribute("target", "_blank");
+
+        const barWidth = xScale(d.value);
+        const bar = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+        bar.setAttribute("x", margin.left);
+        bar.setAttribute("y", yScale(i));
+        bar.setAttribute("width", barWidth);
+        bar.setAttribute("height", chartHeight / data.length - 5);
+        bar.setAttribute("class", "bar");
+        barLink.appendChild(bar);
+        barGroup.appendChild(barLink);
+
+        // Token name (address label) - always to the left of the bar
+        const label = document.createElementNS("http://www.w3.org/2000/svg", "text");
+        label.setAttribute("x", margin.left - 10);
+        label.setAttribute("y", yScale(i) + (chartHeight / data.length / 2));
+        label.setAttribute("text-anchor", "end");
+        label.setAttribute("alignment-baseline", "middle");
+        label.setAttribute("class", "bar-label");
+        label.setAttribute("fill", "black");
+        label.textContent = d.name;
+        barGroup.appendChild(label);
+
+        // Numerical label
+        const value = document.createElementNS("http://www.w3.org/2000/svg", "text");
+        const valueText = valuePrefix + d.value.toLocaleString();
+        value.setAttribute("y", yScale(i) + (chartHeight / data.length / 2));
+        value.setAttribute("alignment-baseline", "middle");
+        value.setAttribute("class", "value-label");
+
+        // Position the numerical label based on bar size
+        if (barWidth > 50) {
+            value.setAttribute("x", margin.left + barWidth - 5);
+            value.setAttribute("text-anchor", "end");
+            value.setAttribute("fill", "white");
+            value.classList.add("large-bar");
+        } else {
+            value.setAttribute("x", margin.left + barWidth + 5);
+            value.setAttribute("text-anchor", "start");
+            value.setAttribute("fill", "black");
+            value.classList.add("small-bar");
+        }
+        value.textContent = valueText;
+        barGroup.appendChild(value);
+
+        const chartIcon = document.createElementNS("http://www.w3.org/2000/svg", "text");
+        chartIcon.setAttribute("x", margin.left - 5);
+        chartIcon.setAttribute("y", yScale(i) + (chartHeight / data.length / 2));
+        chartIcon.setAttribute("text-anchor", "middle");
+        chartIcon.setAttribute("alignment-baseline", "middle");
+        chartIcon.setAttribute("class", "chart-icon");
+        chartIcon.textContent = "📊";
+        chartIcon.style.cursor = "pointer";
+        chartIcon.addEventListener("click", (e) => {
+            e.preventDefault();
+            // Open link based on token_type
+            if (d.token_type === "ERC-721") {
+                window.open(`https://polygon.nftscan.com/${d.address}`, "_blank");
+            } else {
+                window.open(`https://dexscreener.com/polygon/${d.address}`, "_blank");
+            }
+        });
+        barGroup.appendChild(chartIcon);
+
+        svg.appendChild(barGroup);
+    });
+
+    // X-axis
+    const xAxis = document.createElementNS("http://www.w3.org/2000/svg", "line");
+    xAxis.setAttribute("x1", margin.left);
+    xAxis.setAttribute("y1", height - margin.bottom);
+    xAxis.setAttribute("x2", width - margin.right);
+    xAxis.setAttribute("y2", height - margin.bottom);
+    xAxis.setAttribute("stroke", "black");
+    svg.appendChild(xAxis);
+
+    // Y-axis
+    const yAxis = document.createElementNS("http://www.w3.org/2000/svg", "line");
+    yAxis.setAttribute("x1", margin.left);
+    yAxis.setAttribute("y1", margin.top);
+    yAxis.setAttribute("x2", margin.left);
+    yAxis.setAttribute("y2", height - margin.bottom);
+    yAxis.setAttribute("stroke", "black");
+    svg.appendChild(yAxis);
+}
+
+    createChart("growthChart", growthData, "+", true);
+    createChart("transactionsChart", transactionsData, "", false);
+
+    </script>
+</body>
+</html>
