@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arbitrum Weekly Top 15 Tokens - Week Ending September 24, 2024</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            max-width: 800px; 
+            margin: 0 auto; 
+            padding: 20px; 
+            background-color: #f5f7ff; /* Light blue background */
+        }
+        .chart-container { 
+            background-color: white; 
+            border-radius: 8px; 
+            box-shadow: 0 4px 6px rgba(28, 57, 187, 0.1); 
+            margin-bottom: 30px; 
+            padding: 20px; 
+            border: 1px solid #e0e6ff; /* Light blue border */
+        }
+        h1, h2 { 
+            color: #1C39BB; /* Arbitrum blue */
+        }
+        h3 { 
+            font-size: 18px; 
+            margin-top: 0; 
+            color: #4A5568; /* Darker gray for better contrast */
+        }
+        .bar { 
+            fill: #1C39BB; /* Arbitrum blue */
+        }
+        .bar:hover { 
+            opacity: 0.8; 
+        }
+        .bar-label { 
+            font-size: 12px; 
+            fill: #4A5568; /* Darker gray for better readability */
+        }
+        .value-label { 
+            font-size: 12px; 
+            fill: #4A5568; /* Darker gray for better readability */
+        }
+        .value-label.large-bar {
+            fill: white;
+        }
+        .value-label.small-bar {
+            fill: #1C39BB; /* Arbitrum blue */
+        }
+        .chart-icon { 
+            font-size: 12px; 
+            cursor: pointer; 
+            color: #1C39BB; /* Arbitrum blue */
+        }
+        a { 
+            color: #1C39BB; /* Arbitrum blue */
+            text-decoration: none; 
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>Arbitrum Weekly Top 15 Tokens - Week Ending September 24, 2024</h1>
+    <a href="index.html">Back to Index</a>
+    
+    <div class="chart-container">
+        <h2>Top 15 Tokens by Unique User Growth Percentage</h2>
+        <svg id="growthChart" width="760" height="600"></svg>
+    </div>
+    
+    <div class="chart-container">
+        <h2>Top 15 Tokens by Total Transaction Volume</h2>
+        <svg id="transactionsChart" width="760" height="600"></svg>
+    </div>
+
+    <script>
+
+const growthData = [
+    { name: "LayerZero (ZRO) (71cd)", value: 997.22, address: "0x6985884c4392d348587b19cb9eaaf157f13271cd", type: "ERC-20" },
+    { name: "UXLINK Token (UXL...cff1", value: 323.69, address: "0x1a6b3a62391eccaaa992ade44cd4afe6bec8cff1", type: "ERC-20" },
+    { name: "Vee Token (VEE) (8ce9)", value: 116.26, address: "0x0caadd427a6feb5b5fc1137eb05aa7ddd9c08ce9", type: "ERC-20" },
+    { name: "BEBE (BEBE) (f97b)", value: 96.07, address: "0x406d59819bc2aef682f4ff2769085c98a264f97b", type: "ERC-20" },
+    { name: "StargateToken (STG) (1eb6)", value: 263.87, address: "0x6694340fc020c5e6b96567843da2df01b2ce1eb6", type: "ERC-20" },
+    { name: "UXUY Token (UXUY) (79f9)", value: 73.18, address: "0xe2035f04040a135c4da2f96aca742143c57c79f9", type: "ERC-20" },
+    { name: "Tether USD (USDT) (cbb9)", value: 110.71, address: "0xfd086bc7cd5c481dcc9c85ebe478a1c0b69fcbb9", type: "ERC-20" },
+    { name: "USD Coin (USDC) (5831)", value: 112.59, address: "0xaf88d065e77c8cc2239327c5edb3a432268e5831", type: "ERC-20" },
+    { name: "Wrapped Ether (WETH) (bab1)", value: 119.18, address: "0x82af49447d8a07e3bd95bd0d56f35241523fbab1", type: "ERC-20" },
+    { name: "Arbitrum (ARB) (6548)", value: 91.47, address: "0x912ce59144191c1204e64559fe8253a0e49e6548", type: "ERC-20" },
+    { name: "ETH.. (ETH) (452d)", value: 59.93, address: "0x02ed485135b8bd28d2197aefe4e4af512760452d", type: "ERC-20" },
+    { name: "Bridged USDC (USD...5cc8", value: 114.16, address: "0xff970a61a04b1ca14834a43f5de4533ebddb5cc8", type: "ERC-20" },
+    { name: "UЅDТ (UЅDТ) (a48e)", value: 83.16, address: "0x32ca80f3631f8f6a06498f0df982cccfa37da48e", type: "ERC-20" },
+    { name: "Wrapped BTC (WBTC) (5b0f)", value: 83.10, address: "0x2f2a2543b76a4166549f7aab2e75bef0aefc5b0f", type: "ERC-20" },
+    { name: "TIA (TIA.n) (cd4c)", value: 124.81, address: "0xd56734d7f9979dd94fae3d67c7e928234e71cd4c", type: "ERC-20" }
+].sort((a, b) => b.value - a.value);
+
+const transactionsData = [
+    { name: "Wrapped Ether (WETH) (bab1)", value: 7299013, address: "0x82af49447d8a07e3bd95bd0d56f35241523fbab1", type: "ERC-20" },
+    { name: "USD Coin (USDC) (5831)", value: 4248662, address: "0xaf88d065e77c8cc2239327c5edb3a432268e5831", type: "ERC-20" },
+    { name: "Tether USD (USDT) (cbb9)", value: 3281601, address: "0xfd086bc7cd5c481dcc9c85ebe478a1c0b69fcbb9", type: "ERC-20" },
+    { name: "UXUY Token (UXUY) (79f9)", value: 2625324, address: "0xe2035f04040a135c4da2f96aca742143c57c79f9", type: "ERC-20" },
+    { name: "Arbitrum (ARB) (6548)", value: 1185057, address: "0x912ce59144191c1204e64559fe8253a0e49e6548", type: "ERC-20" },
+    { name: "Bridged USDC (USD...5cc8", value: 922621, address: "0xff970a61a04b1ca14834a43f5de4533ebddb5cc8", type: "ERC-20" },
+    { name: "BEBE (BEBE) (f97b)", value: 830508, address: "0x406d59819bc2aef682f4ff2769085c98a264f97b", type: "ERC-20" },
+    { name: "Wrapped BTC (WBTC) (5b0f)", value: 817509, address: "0x2f2a2543b76a4166549f7aab2e75bef0aefc5b0f", type: "ERC-20" },
+    { name: "LayerZero (ZRO) (71cd)", value: 544301, address: "0x6985884c4392d348587b19cb9eaaf157f13271cd", type: "ERC-20" },
+    { name: "USD+ (USD+) (ca65)", value: 452346, address: "0xe80772eaf6e2e18b651f160bc9158b2a5cafca65", type: "ERC-20" },
+    { name: "Pendle (PENDLE) (c9e8)", value: 336330, address: "0x0c880f6761f1af8d9aa9c466984b80dab9a8c9e8", type: "ERC-20" },
+    { name: "Vee Token (VEE) (8ce9)", value: 304309, address: "0x0caadd427a6feb5b5fc1137eb05aa7ddd9c08ce9", type: "ERC-20" },
+    { name: "WorldBrain Coin (...2efb", value: 241375, address: "0x7ae9ab13fc8945323b778b3f8678145e80ec2efb", type: "ERC-20" },
+    { name: "ChainLink Token (...9fb4", value: 230068, address: "0xf97f4df75117a78c1a5a0dbb814af92458539fb4", type: "ERC-20" },
+    { name: "Magic Items of SE...d631", value: 55132, address: "0x8f1f2d55935f39c85abce51509618d577953d631", type: "ERC-721" }
+].sort((a, b) => b.value - a.value);
+
+
+function createChart(svgId, data, valuePrefix = "", isGrowthChart = false) {
+    const svg = document.getElementById(svgId);
+    const width = 760;
+    const height = 600;
+    const margin = { top: 20, right: 30, bottom: 40, left: 200 };
+    const chartWidth = width - margin.left - margin.right;
+    const chartHeight = height - margin.top - margin.bottom;
+
+    // Clear existing content
+    while (svg.firstChild) {
+        svg.removeChild(svg.firstChild);
+    }
+
+    const maxValue = Math.max(...data.map(d => Math.abs(d.value)));
+    const yScale = (i) => margin.top + (i * (chartHeight / data.length));
+    const xScale = (val) => (Math.abs(val) / maxValue) * chartWidth;
+
+    data.forEach((d, i) => {
+        const barGroup = document.createElementNS("http://www.w3.org/2000/svg", "g");
+
+        const barLink = document.createElementNS("http://www.w3.org/2000/svg", "a");
+        barLink.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", `https://arbiscan.io/token/${d.address}`);
+        barLink.setAttribute("target", "_blank");
+
+        const barWidth = xScale(d.value);
+        const bar = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+        bar.setAttribute("x", margin.left);
+        bar.setAttribute("y", yScale(i));
+        bar.setAttribute("width", barWidth);
+        bar.setAttribute("height", chartHeight / data.length - 5);
+        bar.setAttribute("class", "bar");
+        barLink.appendChild(bar);
+        barGroup.appendChild(barLink);
+
+        // Token name (address label) - always to the left of the bar
+        const label = document.createElementNS("http://www.w3.org/2000/svg", "text");
+        label.setAttribute("x", margin.left - 10);
+        label.setAttribute("y", yScale(i) + (chartHeight / data.length / 2));
+        label.setAttribute("text-anchor", "end");
+        label.setAttribute("alignment-baseline", "middle");
+        label.setAttribute("class", "bar-label");
+        label.setAttribute("fill", "black");
+        label.textContent = d.name;
+        barGroup.appendChild(label);
+
+        // Numerical label
+        const value = document.createElementNS("http://www.w3.org/2000/svg", "text");
+        const valueText = valuePrefix + d.value.toLocaleString();
+        value.setAttribute("y", yScale(i) + (chartHeight / data.length / 2));
+        value.setAttribute("alignment-baseline", "middle");
+        value.setAttribute("class", "value-label");
+
+        // Position the numerical label based on bar size
+        if (barWidth > 50) {
+            value.setAttribute("x", margin.left + barWidth - 5);
+            value.setAttribute("text-anchor", "end");
+            value.setAttribute("fill", "white");
+            value.classList.add("large-bar");
+        } else {
+            value.setAttribute("x", margin.left + barWidth + 5);
+            value.setAttribute("text-anchor", "start");
+            value.setAttribute("fill", "black");
+            value.classList.add("small-bar");
+        }
+        value.textContent = valueText;
+        barGroup.appendChild(value);
+
+        const chartIcon = document.createElementNS("http://www.w3.org/2000/svg", "text");
+        chartIcon.setAttribute("x", margin.left - 5);
+        chartIcon.setAttribute("y", yScale(i) + (chartHeight / data.length / 2));
+        chartIcon.setAttribute("text-anchor", "middle");
+        chartIcon.setAttribute("alignment-baseline", "middle");
+        chartIcon.setAttribute("class", "chart-icon");
+        chartIcon.textContent = "📊";
+        chartIcon.style.cursor = "pointer";
+        chartIcon.addEventListener("click", (e) => {
+            e.preventDefault();
+            // Open link based on token_type
+            if (d.token_type === "ERC-721") {
+                window.open(`https://arbitrum.nftscan.com/${d.address}`, "_blank");
+            } else {
+                window.open(`https://dexscreener.com/arbitrum/${d.address}`, "_blank");
+            }
+        });
+        barGroup.appendChild(chartIcon);
+
+        svg.appendChild(barGroup);
+    });
+
+    // X-axis
+    const xAxis = document.createElementNS("http://www.w3.org/2000/svg", "line");
+    xAxis.setAttribute("x1", margin.left);
+    xAxis.setAttribute("y1", height - margin.bottom);
+    xAxis.setAttribute("x2", width - margin.right);
+    xAxis.setAttribute("y2", height - margin.bottom);
+    xAxis.setAttribute("stroke", "black");
+    svg.appendChild(xAxis);
+
+    // Y-axis
+    const yAxis = document.createElementNS("http://www.w3.org/2000/svg", "line");
+    yAxis.setAttribute("x1", margin.left);
+    yAxis.setAttribute("y1", margin.top);
+    yAxis.setAttribute("x2", margin.left);
+    yAxis.setAttribute("y2", height - margin.bottom);
+    yAxis.setAttribute("stroke", "black");
+    svg.appendChild(yAxis);
+}
+
+    createChart("growthChart", growthData, "+", true);
+    createChart("transactionsChart", transactionsData, "", false);
+
+    </script>
+</body>
+</html>
