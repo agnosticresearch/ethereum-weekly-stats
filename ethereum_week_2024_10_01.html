@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ethereum Weekly Top 15 Tokens - Week Ending October 1, 2024</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
+        .chart-container { background-color: white; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin-bottom: 30px; padding: 20px; }
+        h1, h2 { color: #3C3C3D; }  /* Ethereum's primary color */
+        h3 { font-size: 18px; margin-top: 0; color: #666; }
+        .bar { cursor: pointer; }
+        .bar.positive { fill: #3C3C3D; }
+        .bar.negative { fill: #FF4136; }
+        .bar:hover { opacity: 0.8; }
+        .bar-label { font-size: 12px; }
+        .value-label { font-size: 12px; fill: black; }
+        .value-label.large-bar {fill: white;}
+        .value-label.small-bar {fill: black;}
+        .chart-icon { font-size: 12px; cursor: pointer; }
+        .axis-label { font-size: 14px; }
+        a { color: inherit; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <h1>Ethereum Weekly Top 15 Tokens - Week Ending October 1, 2024</h1>
+    <a href="index.html">Back to Index</a>
+    
+    <div class="chart-container">
+        <h2>Top 15 Tokens by Unique User Growth Percentage</h2>
+        <svg id="growthChart" width="760" height="600"></svg>
+    </div>
+    
+    <div class="chart-container">
+        <h2>Top 15 Tokens by Total Transaction Volume</h2>
+        <svg id="transactionsChart" width="760" height="600"></svg>
+    </div>
+
+    <script>
+
+const growthData = [
+    { name: "EigenLayer: EIGEN...1f83", value: 3517.41, address: "0xec53bf9167f50cdeb3ae105f56099aaab9061f83", type: "ERC-20" },
+    { name: "Ether.fi: ETHFI T...c0eb", value: 934.99, address: "0xfe0c30065b384f05761f15d0cc899d4f9f9cc0eb", type: "ERC-20" },
+    { name: "MON Protocol: MON...600e", value: 446.27, address: "0xc555d625828c4527d477e595ff1dd5801b4a600e", type: "ERC-20" },
+    { name: "Mars: MARS Token (c464)", value: 617.15, address: "0xb8d6196d71cdd7d90a053a7769a077772aaac464", type: "ERC-20" },
+    { name: "Hana: HANA Token (24f7)", value: 475.46, address: "0xb3912b20b3abc78c15e85e13ec0bf334fbb924f7", type: "ERC-20" },
+    { name: "SPX6900: SPX Token (c56c)", value: 253.32, address: "0xe0f63a424a4439cbe457d80e4f4b51ad25b2c56c", type: "ERC-20" },
+    { name: "Ethena: ENA Token (6061)", value: 224.50, address: "0x57e114b691db790c35207b2e685d4a43181e6061", type: "ERC-20" },
+    { name: "Memecoin: MEME Token (cd74)", value: 208.81, address: "0xb131f4a55907b10d1f0a50d8ab8fa09ec342cd74", type: "ERC-20" },
+    { name: "Shiba Inu: SHIB T...c4ce", value: 193.96, address: "0x95ad61b0a150d79219dcf64e1e6cc01f0b64c4ce", type: "ERC-20" },
+    { name: "ether.fi: eETH Token (8ac2)", value: 197.10, address: "0x35fa164735182de50811e8e2e824cfb9b6118ac2", type: "ERC-20" },
+    { name: "Layer3: L3 Token (fd9a)", value: 166.83, address: "0x88909d489678dd17aa6d9609f89b0419bf78fd9a", type: "ERC-20" },
+    { name: "Aethir: ATH Token (226b)", value: 162.79, address: "0xbe0ed4138121ecfc5c0e56b40517da27e6c5226b", type: "ERC-20" },
+    { name: "ether.fi: weETH T...b7ee", value: 163.55, address: "0xcd5fe23c85820f7b72d0926fc9b05b43e359b7ee", type: "ERC-20" },
+    { name: "Pepe: PEPE Token (1933)", value: 141.87, address: "0x6982508145454ce325ddbe47a25d4ec3d2311933", type: "ERC-20" },
+    { name: "Uniswap Protocol:...f984", value: 131.89, address: "0x1f9840a85d5af5bf1d1762f925bdaddc4201f984", type: "ERC-20" }
+].sort((a, b) => b.value - a.value);
+
+const transactionsData = [
+    { name: "Wrapped Ether (6cc2)", value: 5139421, address: "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2", type: "ERC-20" },
+    { name: "Tether: USDT Stab...1ec7", value: 2065471, address: "0xdac17f958d2ee523a2206206994597c13d831ec7", type: "ERC-20" },
+    { name: "Circle: USDC Token (eb48)", value: 1056962, address: "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48", type: "ERC-20" },
+    { name: "EigenLayer: EIGEN...1f83", value: 424988, address: "0xec53bf9167f50cdeb3ae105f56099aaab9061f83", type: "ERC-20" },
+    { name: "Shiba Inu: SHIB T...c4ce", value: 88908, address: "0x95ad61b0a150d79219dcf64e1e6cc01f0b64c4ce", type: "ERC-20" },
+    { name: "Wrapped BTC: WBTC...c599", value: 89272, address: "0x2260fac5e5542a773aa44fbcfedf7c193bc2c599", type: "ERC-20" },
+    { name: "Pepe: PEPE Token (1933)", value: 83213, address: "0x6982508145454ce325ddbe47a25d4ec3d2311933", type: "ERC-20" },
+    { name: "Sky: Dai Stablecoin (1d0f)", value: 73152, address: "0x6b175474e89094c44da98b954eedeac495271d0f", type: "ERC-20" },
+    { name: "Cate: CATE Token (33b8)", value: 73692, address: "0xa00453052a36d43a99ac1ca145dfe4a952ca33b8", type: "ERC-20" },
+    { name: "Ether.fi: ETHFI T...c0eb", value: 66743, address: "0xfe0c30065b384f05761f15d0cc899d4f9f9cc0eb", type: "ERC-20" },
+    { name: "Mars: MARS Token (c464)", value: 63303, address: "0xb8d6196d71cdd7d90a053a7769a077772aaac464", type: "ERC-20" },
+    { name: "Moodeng: MOODENG ...bcad", value: 60756, address: "0x28561b8a2360f463011c16b6cc0b0cbef8dbbcad", type: "ERC-20" },
+    { name: "TERMINUS (f406)", value: 56646, address: "0xcbde0453d4e7d748077c1b0ac2216c011dd2f406", type: "ERC-20" },
+    { name: "Chainlink: LINK T...86ca", value: 54225, address: "0x514910771af9ca656af840dff83e8264ecf986ca", type: "ERC-20" },
+    { name: "Mog Coin: Mog Token (1c7a)", value: 50691, address: "0xaaee1a9723aadb7afa2810263653a34ba2c21c7a", type: "ERC-20" }
+].sort((a, b) => b.value - a.value);
+
+
+function createChart(svgId, data, valuePrefix = "", isGrowthChart = false) {
+    const svg = document.getElementById(svgId);
+    const width = 760;
+    const height = 600;
+    const margin = { top: 20, right: 30, bottom: 40, left: 200 };
+    const chartWidth = width - margin.left - margin.right;
+    const chartHeight = height - margin.top - margin.bottom;
+
+    // Clear existing content
+    while (svg.firstChild) {
+        svg.removeChild(svg.firstChild);
+    }
+
+    const maxValue = Math.max(...data.map(d => Math.abs(d.value)));
+    const yScale = (i) => margin.top + (i * (chartHeight / data.length));
+    const xScale = (val) => (Math.abs(val) / maxValue) * chartWidth;
+
+    data.forEach((d, i) => {
+        const barGroup = document.createElementNS("http://www.w3.org/2000/svg", "g");
+
+        const barLink = document.createElementNS("http://www.w3.org/2000/svg", "a");
+        barLink.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", `https://etherscan.io/token/${d.address}`);
+        barLink.setAttribute("target", "_blank");
+
+        const barWidth = xScale(d.value);
+        const bar = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+        bar.setAttribute("x", margin.left);
+        bar.setAttribute("y", yScale(i));
+        bar.setAttribute("width", barWidth);
+        bar.setAttribute("height", chartHeight / data.length - 5);
+        bar.setAttribute("class", "bar");
+        barLink.appendChild(bar);
+        barGroup.appendChild(barLink);
+
+        // Token name (address label) - always to the left of the bar
+        const label = document.createElementNS("http://www.w3.org/2000/svg", "text");
+        label.setAttribute("x", margin.left - 10);
+        label.setAttribute("y", yScale(i) + (chartHeight / data.length / 2));
+        label.setAttribute("text-anchor", "end");
+        label.setAttribute("alignment-baseline", "middle");
+        label.setAttribute("class", "bar-label");
+        label.setAttribute("fill", "black");
+        label.textContent = d.name;
+        barGroup.appendChild(label);
+
+        // Numerical label
+        const value = document.createElementNS("http://www.w3.org/2000/svg", "text");
+        const valueText = valuePrefix + d.value.toLocaleString();
+        value.setAttribute("y", yScale(i) + (chartHeight / data.length / 2));
+        value.setAttribute("alignment-baseline", "middle");
+        value.setAttribute("class", "value-label");
+
+        // Position the numerical label based on bar size
+        if (barWidth > 50) {
+            value.setAttribute("x", margin.left + barWidth - 5);
+            value.setAttribute("text-anchor", "end");
+            value.setAttribute("fill", "white");
+            value.classList.add("large-bar");
+        } else {
+            value.setAttribute("x", margin.left + barWidth + 5);
+            value.setAttribute("text-anchor", "start");
+            value.setAttribute("fill", "black");
+            value.classList.add("small-bar");
+        }
+        value.textContent = valueText;
+        barGroup.appendChild(value);
+
+        const chartIcon = document.createElementNS("http://www.w3.org/2000/svg", "text");
+        chartIcon.setAttribute("x", margin.left - 5);
+        chartIcon.setAttribute("y", yScale(i) + (chartHeight / data.length / 2));
+        chartIcon.setAttribute("text-anchor", "middle");
+        chartIcon.setAttribute("alignment-baseline", "middle");
+        chartIcon.setAttribute("class", "chart-icon");
+        chartIcon.textContent = "📊";
+        chartIcon.style.cursor = "pointer";
+        chartIcon.addEventListener("click", (e) => {
+            e.preventDefault();
+            // Open link based on token_type
+            if (d.token_type === "ERC-721") {
+                window.open(`https://eth.nftscan.com/${d.address}`, "_blank");
+            } else {
+                window.open(`https://dexscreener.com/ethereum/${d.address}`, "_blank");
+            }
+        });
+        barGroup.appendChild(chartIcon);
+
+        svg.appendChild(barGroup);
+    });
+
+    // X-axis
+    const xAxis = document.createElementNS("http://www.w3.org/2000/svg", "line");
+    xAxis.setAttribute("x1", margin.left);
+    xAxis.setAttribute("y1", height - margin.bottom);
+    xAxis.setAttribute("x2", width - margin.right);
+    xAxis.setAttribute("y2", height - margin.bottom);
+    xAxis.setAttribute("stroke", "black");
+    svg.appendChild(xAxis);
+
+    // Y-axis
+    const yAxis = document.createElementNS("http://www.w3.org/2000/svg", "line");
+    yAxis.setAttribute("x1", margin.left);
+    yAxis.setAttribute("y1", margin.top);
+    yAxis.setAttribute("x2", margin.left);
+    yAxis.setAttribute("y2", height - margin.bottom);
+    yAxis.setAttribute("stroke", "black");
+    svg.appendChild(yAxis);
+}
+
+    createChart("growthChart", growthData, "+", true);
+    createChart("transactionsChart", transactionsData, "", false);
+
+    </script>
+</body>
+</html>
